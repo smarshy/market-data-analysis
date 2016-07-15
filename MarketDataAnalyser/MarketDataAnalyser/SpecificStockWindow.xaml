@@ -1,0 +1,21 @@
+﻿<Window x:Class="MarketDataAnalyser.SpecificStockWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarketDataAnalyser"
+        mc:Ignorable="d"
+        Title="SpecificStockWindow" Height="450" Width="425">
+    <Canvas>
+        <Label x:Name="lblStockName" Content="StockName" Height="60" Canvas.Left="21" Canvas.Top="19" Width="163" FontSize="30"/>
+        <ListBox x:Name="listBox" Height="144" Canvas.Left="202" Canvas.Top="10" Width="205"/>
+        <Rectangle Fill="#FFF4F4F5" Height="190" Canvas.Left="10" Stroke="Black" Canvas.Top="202" Width="397"/>
+        <ComboBox x:Name="comboBoxSortChart" Height="28" Canvas.Left="302" Canvas.Top="169" Width="96" Loaded="ShowChartSortOptions"/>
+        <Label x:Name="label" Content="From" Height="28" Canvas.Left="21" Canvas.Top="137" Width="57"/>
+        <DatePicker Height="28" Canvas.Left="83" Canvas.Top="137" Width="101"/>
+        <Label x:Name="label_Copy" Content="To" Height="28" Canvas.Left="21" Canvas.Top="169" Width="57"/>
+        <DatePicker Height="28" Canvas.Left="83" Canvas.Top="169" Width="101"/>
+        <Button x:Name="btnCropTable" Content="Crop Table" Height="28" Canvas.Left="202" Canvas.Top="169" Width="79"/>
+
+    </Canvas>
+</Window>
