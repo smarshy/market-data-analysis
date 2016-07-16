@@ -36,31 +36,32 @@ namespace PipelineTest
         private void SubmitName(object sender, RoutedEventArgs e)
         {
             string submittedName = txtName.Text;
-           // FileStream newFileStream = new FileStream(fileName, FileMode.Create);
+            Greetings newGreetings = new Greetings(submittedName);
+            //  FileStream newFileStream = new FileStream(fileName, FileMode.Create);
 
             MemoryStream mStream = new MemoryStream();
-            serializer.WriteObject(mStream, submittedName);
+            serializer.WriteObject(mStream, newGreetings);
             mStream.Seek(0, SeekOrigin.Begin);
-            byte[] buffer = new byte[100];
-            mStream.Read(buffer, 0, 100);
+            byte[] buffer = new byte[mStream.Length];
+            mStream.Read(buffer, 0, (int)mStream.Length);
             string result = System.Text.Encoding.UTF8.GetString(buffer);
-            
 
 
-            //serializer.WriteObject(newFileStream, submittedName);
-          //  newFileStream.Close();
 
-            //StreamReader newStreamReader = new StreamReader(fileName);
-            //string newMessage = (string)serializer.ReadObject(newStreamReader.BaseStream);
+            // serializer.WriteObject(newFileStream, submittedName);
+            // newFileStream.Close();
+
+            //  StreamReader newStreamReader = new StreamReader(fileName);
+            // string newMessage = (string)serializer.ReadObject(newStreamReader.BaseStream);
             WebClient newWebClient = new WebClient();
-          
-            newWebClient.Headers.Add(HttpRequestHeader.ContentType, "text/plain");
-            newWebClient.UploadString(new Uri("http://192.168.85.52:8080/StudentOnlineRetailerWeb/rest/productsimple"),
+
+            newWebClient.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+            newWebClient.UploadString(new Uri("http://192.168.85.52:8080/MarketDataAnalyserWeb/rest/users"),
                 "POST", result);
 
-            string receivedMessage = newWebClient.DownloadString("http://192.168.85.52:8080/StudentOnlineRetailerWeb/rest/productsimple");
-            MessageBox.Show(receivedMessage);
+            string receivedMessage = newWebClient.DownloadString("http://192.168.85.52:8080/MarketDataAnalyserWeb/rest/users");
 
+            MessageBox.Show(receivedMessage);
 
         }
 

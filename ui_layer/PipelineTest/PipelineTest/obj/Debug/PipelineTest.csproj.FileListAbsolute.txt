@@ -12,3 +12,17 @@ C:\Users\Grad51\Downloads\Ayush_Goyal_VB\Extra\PipelineTest\PipelineTest\obj\Deb
 C:\Users\Grad51\Downloads\Ayush_Goyal_VB\Extra\PipelineTest\PipelineTest\obj\Debug\PipelineTest.csproj.GenerateResource.Cache
 C:\Users\Grad51\Downloads\Ayush_Goyal_VB\Extra\PipelineTest\PipelineTest\obj\Debug\PipelineTest.exe
 C:\Users\Grad51\Downloads\Ayush_Goyal_VB\Extra\PipelineTest\PipelineTest\obj\Debug\PipelineTest.pdb
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\bin\Debug\PipelineTest.exe.config
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\PipelineTest.exe
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\PipelineTest.pdb
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\PipelineTest.csprojResolveAssemblyReference.cache
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\MainWindow.g.cs
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\App.g.cs
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\PipelineTest_MarkupCompile.cache
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\PipelineTest_MarkupCompile.lref
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\bin\Debug\PipelineTest.exe
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\bin\Debug\PipelineTest.pdb
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\MainWindow.baml
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\PipelineTest.g.resources
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\PipelineTest.Properties.Resources.resources
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\PipelineTest.csproj.GenerateResource.Cache
