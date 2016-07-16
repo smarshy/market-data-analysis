@@ -40,9 +40,26 @@ namespace MarketDataAnalyser
 
         private void ShowSortChartOptions(object sender, RoutedEventArgs e)
         {
-            comboBoxSortChart.Items.Add("By week");
+            comboBoxSortChart.Items.Add("By day");
             comboBoxSortChart.Items.Add("By month");
             comboBoxSortChart.Items.Add("By year");
+        }
+
+        private void ShowContry(object sender, RoutedEventArgs e)
+        {
+            comboBoxCountry.Items.Add("World");
+            comboBoxCountry.Items.Add("India");
+            comboBoxCountry.Items.Add("USA");
+            comboBoxCountry.Items.Add("England");
+            comboBoxCountry.Items.Add("China");
+        }
+
+        private void ShowSegment(object sender, RoutedEventArgs e)
+        {
+            comboBoxSegment.Items.Add("All sectors");
+            comboBoxSegment.Items.Add("Technology");
+            comboBoxSegment.Items.Add("Energy");
+            comboBoxSegment.Items.Add("Financial Services");
         }
     }
 }

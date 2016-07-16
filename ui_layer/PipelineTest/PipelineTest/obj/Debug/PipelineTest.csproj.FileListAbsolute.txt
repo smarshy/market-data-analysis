@@ -26,3 +26,6 @@ C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineT
 C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\PipelineTest.g.resources
 C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\PipelineTest.Properties.Resources.resources
 C:\Users\Grad51\Downloads\Ayush_Goyal_VB\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\PipelineTest.csproj.GenerateResource.Cache
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\Project_Citi\market-data-analysis\ui_layer\PipelineTest\PipelineTest\bin\Debug\PipelineTest.exe.config
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\Project_Citi\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\PipelineTest.exe
+C:\Users\Grad51\Downloads\Ayush_Goyal_VB\Project_Citi\market-data-analysis\ui_layer\PipelineTest\PipelineTest\obj\Debug\PipelineTest.pdb
