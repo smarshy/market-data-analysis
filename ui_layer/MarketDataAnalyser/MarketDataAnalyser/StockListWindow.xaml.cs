@@ -47,19 +47,23 @@ namespace MarketDataAnalyser
 
         private void ShowContry(object sender, RoutedEventArgs e)
         {
-            comboBoxCountry.Items.Add("World");
-            comboBoxCountry.Items.Add("India");
-            comboBoxCountry.Items.Add("USA");
-            comboBoxCountry.Items.Add("England");
-            comboBoxCountry.Items.Add("China");
+            comboBoxCountry.Items.Add("All regions");
+            comboBoxCountry.Items.Add("EMEA");
+            comboBoxCountry.Items.Add("NAM");
+            comboBoxCountry.Items.Add("APAC");
+            comboBoxCountry.Items.Add("Latin America");
         }
 
         private void ShowSegment(object sender, RoutedEventArgs e)
         {
             comboBoxSegment.Items.Add("All sectors");
             comboBoxSegment.Items.Add("Technology");
-            comboBoxSegment.Items.Add("Energy");
-            comboBoxSegment.Items.Add("Financial Services");
+            comboBoxSegment.Items.Add("Oil and Gas");
+            comboBoxSegment.Items.Add("Automotive");
+            comboBoxSegment.Items.Add("Banking/Finance");
+            comboBoxSegment.Items.Add("Engineering");
+            comboBoxSegment.Items.Add("Pharmaceuticals");
+            comboBoxSegment.Items.Add("IT");
         }
     }
 }
