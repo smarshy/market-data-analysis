@@ -15,9 +15,9 @@ import javax.persistence.TypedQuery;
  * Session Bean implementation class Greeting
  */
 @Stateless
-@Remote(GreetingRemote.class)
-@Local(GreetingLocal.class)
-public class Greeting implements GreetingRemote, GreetingLocal {
+@Remote(MarketDataAnalyserBeanRemote.class)
+@Local(MarketDataAnalyserBeanLocal.class)
+public class MarketDataAnalyserBean implements MarketDataAnalyserBeanRemote, MarketDataAnalyserBeanLocal {
 
     /**
      * Default constructor. 
@@ -28,7 +28,7 @@ public class Greeting implements GreetingRemote, GreetingLocal {
 	@PersistenceContext(name="MarketAnalyserJPA")
 	private EntityManager em;
 	
-    public Greeting() {
+    public MarketDataAnalyserBean() {
         // TODO Auto-generated constructor stub
     }
     
@@ -52,5 +52,8 @@ public class Greeting implements GreetingRemote, GreetingLocal {
 	public String get_message() {
 		return message;
 	}
+	
+	
+	
 
 }
