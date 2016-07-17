@@ -11,6 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Net;
 
 namespace MarketDataAnalyser
 {
@@ -26,7 +30,7 @@ namespace MarketDataAnalyser
 
         private void ShowChartSortOptions(object sender, RoutedEventArgs e)
         {
-            comboBoxSortChart.Items.Add("By week");
+            comboBoxSortChart.Items.Add("By day");
             comboBoxSortChart.Items.Add("By month");
             comboBoxSortChart.Items.Add("By year");
         }

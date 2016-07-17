@@ -5,19 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarketDataAnalyser"
         mc:Ignorable="d"
-        Title="StockListWindow" Height="350" Width="525">
+        Title="StockListWindow" Height="350" Width="525" >
     <Canvas>
-        <ListBox x:Name="lstStocks" HorizontalAlignment="Left" Height="285" Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" Canvas.Top="10" Loaded="ShowStockList" SelectionChanged="ChangeSelection" Canvas.Left="3"/>
-        <Label x:Name="lblStockName" Grid.ColumnSpan="2" Content="StockName" Grid.Column="1" HorizontalAlignment="Left" Height="48" Grid.RowSpan="2" VerticalAlignment="Top" Width="142" FontSize="20" Canvas.Left="127" Canvas.Top="10"/>
-        <StatusBar Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="20" Grid.Row="3" VerticalAlignment="Top" Width="517" Canvas.Top="300"/>
-        <Rectangle x:Name="rectChart" Grid.ColumnSpan="2" Grid.Column="2" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="146" Grid.RowSpan="3" Stroke="Black" VerticalAlignment="Top" Width="380" Canvas.Left="127" Canvas.Top="149"/>
+        <ListBox x:Name="lstStocks" HorizontalAlignment="Left" Height="241" Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" Width="141" Grid.ColumnSpan="2" Canvas.Top="54" Loaded="ShowStockList" SelectionChanged="ChangeSelection" Canvas.Left="3"/>
+        <Label x:Name="lblStockName" Grid.ColumnSpan="2" Content="StockName" Grid.Column="1" HorizontalAlignment="Left" Height="48" Grid.RowSpan="2" VerticalAlignment="Top" Width="142" FontSize="20" Canvas.Left="149" Canvas.Top="10"/>
+        <StatusBar Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="25" Grid.Row="3" VerticalAlignment="Top" Width="517" Canvas.Top="295"/>
+        <Rectangle x:Name="rectChart" Grid.ColumnSpan="2" Grid.Column="2" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="146" Grid.RowSpan="3" Stroke="Black" VerticalAlignment="Top" Width="358" Canvas.Left="149" Canvas.Top="149"/>
         <ListBox x:Name="lstStockDetails" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left" Height="99" Grid.Row="1" VerticalAlignment="Bottom" Width="187" Grid.RowSpan="2" Canvas.Left="320" Canvas.Top="10"/>
-        <ComboBox x:Name="comboBoxSortChart" Height="21" Canvas.Left="428" Canvas.Top="123" Width="79" Loaded="ShowSortChartOptions"/>
+        <ComboBox x:Name="comboBoxSortChart" Height="21" Canvas.Left="428" Canvas.Top="123" Width="79" Loaded="ShowSortChartOptions" SelectedIndex="0"/>
         <Label x:Name="lblFrom" Content="From" Height="27" Canvas.Left="149" Canvas.Top="84" Width="43"/>
         <DatePicker Height="27" Canvas.Left="197" Canvas.Top="84" Width="103"/>
         <Label x:Name="lblTo" Content="To" Height="27" Canvas.Left="164" Canvas.Top="116" Width="28" RenderTransformOrigin="1.437,0.452"/>
         <DatePicker Height="27" Canvas.Left="197" Canvas.Top="117" Width="104"/>
         <Button x:Name="btnCropTable" Content="Crop table" Height="25" Canvas.Left="320" Canvas.Top="119" Width="76"/>
+        <ComboBox x:Name="comboBoxCountry" Height="23" Canvas.Left="3" Canvas.Top="4" Width="139" RenderTransformOrigin="0.187,0.544" Loaded="ShowCountry" SelectedIndex="0"/>
+        <ComboBox x:Name="comboBoxSector" Height="23" Canvas.Left="3" Canvas.Top="29" Width="139" RenderTransformOrigin="0.187,0.544" Loaded="ShowSectors" SelectedIndex="0"/>
 
     </Canvas>
 </Window>
