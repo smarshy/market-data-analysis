@@ -30,9 +30,9 @@ namespace MarketDataAnalyser
             InitializeComponent();
         }
 
-        public List<String> allStocks = new List<String>();
-        DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<String>));
-
+        public static List<String> allStocks = new List<String>();
+        DataContractJsonSerializer serializerListString = new DataContractJsonSerializer(typeof(List<String>));
+       
         private void ShowStockListWindow(object sender, RoutedEventArgs e)
         {
             StockListWindow newStockListWindow = new StockListWindow();
@@ -48,7 +48,14 @@ namespace MarketDataAnalyser
 
         private void ShowSpecificStockWindow(object sender, RoutedEventArgs e)
         {
-            
+            if (txtSearch.Text.Equals(null))
+            {
+                MessageBox.Show("Please enter a stock");
+            }
+            else
+            {
+
+            }
             
                 SpecificStockWindow newSpecificStockWindow = new SpecificStockWindow();
                 newSpecificStockWindow.Show();
@@ -56,5 +63,14 @@ namespace MarketDataAnalyser
             
         }
 
+        private void PopulateList(object sender, RoutedEventArgs e)
+        {
+            string getURL = "http://192.168.239.51:8080/MarketDataAnalyserWeb/rest/stocks";
+            WebClient newWebClient = new WebClient();
+
+
+            Stream receivedStream = newWebClient.OpenRead(getURL);
+            allStocks = (List<String>)serializerListString.ReadObject(receivedStream);
+        }
     }
 }

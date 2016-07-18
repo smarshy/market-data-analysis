@@ -15,6 +15,8 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Net;
+using System.Windows.Controls.DataVisualization.Charting;
+
 
 namespace MarketDataAnalyser
 {
@@ -28,54 +30,46 @@ namespace MarketDataAnalyser
             InitializeComponent();
         }
 
-        public List<String> allStocks = new List<String>();
-        DataContractJsonSerializer serializerListString = new DataContractJsonSerializer(typeof(List<String>));
+        //public static  List<String> allStocks = new List<String>();
+        //DataContractJsonSerializer serializerListString = new DataContractJsonSerializer(typeof(List<String>));
         DataContractJsonSerializer serializerNasdaq = new DataContractJsonSerializer(typeof(Nasdaq));
 
         private void ChangeSelection(object sender, SelectionChangedEventArgs e)
         {
-            //string getURL = "http://192.168.85.50:8080/MarketDataAnalyserWeb/rest/liststocks";
+            //string getURL = "http://192.168.239.51:8080/MarketDataAnalyserWeb/rest/stocks/query";
             //WebClient newWebClient = new WebClient();
 
-            lblStockName.Content = lstStocks.SelectedItem;
+            //lblStockName.Content = lstStocks.SelectedItem;
 
             ////newWebClient.Headers.Add(HttpRequestHeader.ContentType, "text/plain");
             ////newWebClient.UploadString(new Uri(getURL), "POST", lstStocks.SelectedItem.ToString());
 
-            //Stream receivedStream = newWebClient.OpenRead(getURL + "/"+ lstStocks.SelectedItem.ToString());
+            //Stream receivedStream = newWebClient.OpenRead(getURL + "?ticker=" + lstStocks.SelectedItem.ToString());
             //Nasdaq newNasdaq = (Nasdaq)serializerNasdaq.ReadObject(receivedStream);
-            //lstStockDetails.Items.Add(newNasdaq.ToString());
+            ////stackPanelStockDetails.(newNasdaq.ToString());
+            //MessageBox.Show(newNasdaq.ToString());
 
         }
 
         private void ShowStockList(object sender, RoutedEventArgs e)
         {
-            string getURL = "http://192.168.85.50:8080/MarketDataAnalyserWeb/rest/stocks";
-            WebClient newWebClient = new WebClient();
+
+            //string getURL = "http://192.168.239.51:8080/MarketDataAnalyserWeb/rest/stocks";
+            //WebClient newWebClient = new WebClient();
 
 
-            //newWebClient.Headers.Add(HttpRequestHeader.ContentType, "text/plain");
-            //newWebClient.UploadString(new Uri(getURL), "POST", "allStocks");
+            //Stream receivedStream = newWebClient.OpenRead(getURL);
+            //allStocks = (List<String>)serializerListString.ReadObject(receivedStream);
 
+            MainWindow newMainWindow = new MainWindow();
 
-            Stream receivedStream = newWebClient.OpenRead(getURL);
-            allStocks = (List<String>)serializerListString.ReadObject(receivedStream);
-
-
-
-            for (int i = 0; i < allStocks.Count; i++)
+            for (int i = 0; i < MainWindow.allStocks.Count; i++)
             {
-                lstStocks.Items.Add(allStocks[i]);
+                lstStocks.Items.Add(MainWindow.allStocks[i]);
             }
 
         }
 
-        private void ShowSortChartOptions(object sender, RoutedEventArgs e)
-        {
-            comboBoxSortChart.Items.Add("By day");
-            comboBoxSortChart.Items.Add("By month");
-            comboBoxSortChart.Items.Add("By year");
-        }
 
         private void ShowCountry(object sender, RoutedEventArgs e)
         {
@@ -98,6 +92,12 @@ namespace MarketDataAnalyser
          
         }
 
- 
+        private void ShowExchange(object sender, RoutedEventArgs e)
+        {
+            comboBoxExchange.Items.Add("NASDAQ");
+            comboBoxExchange.Items.Add("NYSE");
+            comboBoxExchange.Items.Add("LIFFE");
+
+        }
     }
 }

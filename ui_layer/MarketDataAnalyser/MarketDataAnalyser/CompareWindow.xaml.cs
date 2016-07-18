@@ -28,32 +28,67 @@ namespace MarketDataAnalyser
             InitializeComponent();
         }
 
-        private void DropDownListFirst(object sender, RoutedEventArgs e)
+        //public List<String> allStocks = new List<String>();
+        //DataContractJsonSerializer serializerListString = new DataContractJsonSerializer(typeof(List<String>));
+        //DataContractJsonSerializer serializerNasdaq = new DataContractJsonSerializer(typeof(Nasdaq));
+
+
+        
+
+        private void PopulateComboBoxes(object sender, RoutedEventArgs e)
         {
-            comboBoxFirstStock.Items.Add("Apple");
-            comboBoxFirstStock.Items.Add("Microsoft");
-            comboBoxFirstStock.Items.Add("Oracle");
-            comboBoxFirstStock.Items.Add("Citi");
-            comboBoxFirstStock.Items.Add("Google");
+            MainWindow newMainWindow = new MainWindow();
+
+
+            for (int i = 0; i < MainWindow.allStocks.Count; i++)
+            {
+                listBoxFirst.Items.Add(MainWindow.allStocks[i]);
+            }
+
+            for (int i = 0; i < MainWindow.allStocks.Count; i++)
+            {
+                listBoxSecond.Items.Add(MainWindow.allStocks[i]);
+            }
         }
 
-        private void DropDownListSecond(object sender, RoutedEventArgs e)
+        private void CompareTheStocks(object sender, RoutedEventArgs e)
         {
-            comboBoxSecondStock.Items.Add("Apple");
-            comboBoxSecondStock.Items.Add("Microsoft");
-            comboBoxSecondStock.Items.Add("Oracle");
-            comboBoxSecondStock.Items.Add("Citi");
-            comboBoxSecondStock.Items.Add("Google");
+            if(dateFrom.SelectedDate != null && dateTo.SelectedDate != null)
+            {
+                if (listBoxFirst.SelectedItem.Equals(listBoxSecond.SelectedItem))
+                {
+                    MessageBox.Show("Select different stocks");
+                }
+                else
+                {
+                    DateTime fromDate = (DateTime)dateFrom.SelectedDate;
+                    DateTime toDate = (DateTime)dateTo.SelectedDate;
+
+                    String[] sendingArray = {listBoxFirst.SelectedItem.ToString(),listBoxSecond.SelectedItem.ToString(),
+                        fromDate.ToString("yyyyMMdd"),toDate.ToString("yyyyMMdd")};
+
+                    DataContractJsonSerializer serializerStringArray = new DataContractJsonSerializer(typeof(String[]));
+                    string getURL = "";
+
+                    WebClient newWebClient = new WebClient();
+
+                    Stream receivedStream = newWebClient.OpenRead(getURL + "?ticker1=\"" + listBoxFirst.SelectedItem.ToString()
+                        +"\"&ticker2=\"" + listBoxSecond.SelectedItem.ToString() + "\"&fromDate=\"" +
+                        fromDate.ToString("yyyyMMdd") + "\"&toDate\"" + toDate.ToString("yyyyMMdd")); 
+
+                    
+
+
+
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select dates");
+            }
         }
 
-        private void SelectionChangedFirst(object sender, SelectionChangedEventArgs e)
-        {
-            lblStockNameFirst.Content = comboBoxFirstStock.SelectedItem;
-        }
-
-        private void SelectionChangedSecond(object sender, SelectionChangedEventArgs e)
-        {
-            lblStockNameSecond.Content = comboBoxSecondStock.SelectedValue; 
-        }
+        
     }
 }

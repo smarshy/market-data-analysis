@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PipelineTest"
         mc:Ignorable="d"
-        Title="MainWindow" Height="250" Width="325">
+        Title="MainWindow" Height="725" Width="1370">
     <Canvas>
         <TextBox x:Name="txtName" Height="36" Canvas.Left="78" TextWrapping="Wrap" Text="Enter a name" Canvas.Top="76" Width="171" HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
         <Button x:Name="btnSubmit" Content="Submit" Height="33" Canvas.Left="109" Canvas.Top="117" Width="106" Click="SubmitName"/>

@@ -60,7 +60,7 @@ namespace MarketDataAnalyser
         public override string ToString()
         {
             return ("Opening price: " + openingPrice + "\nClosing price: " + 
-                closingPrice + "\nHigh: " + high + "\Low: " + low + "\nVolume: " + volume);
+                closingPrice + "\nHigh: " + high + "\nLow: " + low + "\nVolume: " + volume);
         }
     }
 }
