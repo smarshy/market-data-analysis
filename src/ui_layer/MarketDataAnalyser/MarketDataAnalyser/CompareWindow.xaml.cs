@@ -15,6 +15,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Net;
+using System.Windows.Controls.DataVisualization.Charting;
 
 namespace MarketDataAnalyser
 {
@@ -31,7 +32,7 @@ namespace MarketDataAnalyser
         //public List<String> allStocks = new List<String>();
         //DataContractJsonSerializer serializerListString = new DataContractJsonSerializer(typeof(List<String>));
         //DataContractJsonSerializer serializerNasdaq = new DataContractJsonSerializer(typeof(Nasdaq));
-
+        
 
         
 
@@ -40,14 +41,14 @@ namespace MarketDataAnalyser
             MainWindow newMainWindow = new MainWindow();
 
 
-            for (int i = 0; i < MainWindow.allStocks.Count; i++)
+            for (int i = 0; i < LoginWindow.allStocks.Count; i++)
             {
-                listBoxFirst.Items.Add(MainWindow.allStocks[i]);
+                listBoxFirst.Items.Add(LoginWindow.allStocks[i]);
             }
 
-            for (int i = 0; i < MainWindow.allStocks.Count; i++)
+            for (int i = 0; i < LoginWindow.allStocks.Count; i++)
             {
-                listBoxSecond.Items.Add(MainWindow.allStocks[i]);
+                listBoxSecond.Items.Add(LoginWindow.allStocks[i]);
             }
         }
 
@@ -55,33 +56,96 @@ namespace MarketDataAnalyser
         {
             if(dateFrom.SelectedDate != null && dateTo.SelectedDate != null)
             {
-                if (listBoxFirst.SelectedItem.Equals(listBoxSecond.SelectedItem))
+
+
+                string getURL = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks";
+                WebClient newWebClient = new WebClient();
+            
+
+                DateTime fromDate = (DateTime)dateFrom.SelectedDate;
+                DateTime toDate = (DateTime)dateTo.SelectedDate;
+
+                var newSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                string receivedString = newWebClient.DownloadString(getURL + "/" + listBoxFirst.SelectedItem.ToString() 
+                    + "/" + listBoxSecond.SelectedItem.ToString() + "/" + fromDate.ToString("yyyyMMdd")
+                    +"/"+toDate.ToString("yyyyMMdd"));
+                CompareStocks newCompareStocks = newSerializer.Deserialize<CompareStocks>(receivedString);
+
+
+                Nasdaq newNasdaqFirst = newCompareStocks.stock1;
+                Nasdaq newNasdaqSecond = newCompareStocks.stock2;
+                List<Nasdaq> newNasdaqChartFirst = newCompareStocks.listStock1;
+                List<Nasdaq> newNasdaqChartSecond = newCompareStocks.listStock2;
+
+                lblStockNameFirst.Content = newNasdaqFirst.ticker;
+                lblOpeningPriceFirst.Content = newNasdaqFirst.openingPrice;
+                lblClosingPriceFirst.Content = newNasdaqFirst.closingPrice;
+                lblHighFirst.Content = newNasdaqFirst.high;
+                lblLowFirst.Content = newNasdaqFirst.low;
+                lblVolumeFirst.Content = newNasdaqFirst.volume;
+
+                if (newNasdaqFirst.upArrow)
                 {
-                    MessageBox.Show("Select different stocks");
+                    greenArrowFirst.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    DateTime fromDate = (DateTime)dateFrom.SelectedDate;
-                    DateTime toDate = (DateTime)dateTo.SelectedDate;
-
-                    String[] sendingArray = {listBoxFirst.SelectedItem.ToString(),listBoxSecond.SelectedItem.ToString(),
-                        fromDate.ToString("yyyyMMdd"),toDate.ToString("yyyyMMdd")};
-
-                    DataContractJsonSerializer serializerStringArray = new DataContractJsonSerializer(typeof(String[]));
-                    string getURL = "";
-
-                    WebClient newWebClient = new WebClient();
-
-                    Stream receivedStream = newWebClient.OpenRead(getURL + "?ticker1=\"" + listBoxFirst.SelectedItem.ToString()
-                        +"\"&ticker2=\"" + listBoxSecond.SelectedItem.ToString() + "\"&fromDate=\"" +
-                        fromDate.ToString("yyyyMMdd") + "\"&toDate\"" + toDate.ToString("yyyyMMdd")); 
-
-                    
-
-
-
-
+                    redArrowFirst.Visibility = Visibility.Visible;
                 }
+
+                lblStockNameSecond.Content = newNasdaqSecond.ticker;
+                lblOpeningPriceSecond.Content = newNasdaqSecond.openingPrice;
+                lblClosingPriceSecond.Content = newNasdaqSecond.closingPrice;
+                lblHighSecond.Content = newNasdaqSecond.high;
+                lblLowSecond.Content = newNasdaqSecond.low;
+                lblVolumeSecond.Content = newNasdaqSecond.volume;
+
+                if (newNasdaqSecond.upArrow)
+                {
+                    greenArrowSecond.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    redArrowSecond.Visibility = Visibility.Visible;
+                }
+
+
+                List<KeyValuePair<int, decimal>> newKeyValuePairChartFirst = new List<KeyValuePair<int, decimal>>();
+
+                for (int i = 0; i < newNasdaqChartFirst.Count; i++)
+                {
+                    newKeyValuePairChartFirst.Add(new KeyValuePair<int, decimal>(newNasdaqChartFirst[i].exchangeDate,
+                        newNasdaqChartFirst[i].closingPrice));
+                }
+
+
+                LineSeries newLineSeriesFirst = new LineSeries();
+                newLineSeriesFirst.Title = listBoxFirst.SelectedItem.ToString();
+                newLineSeriesFirst.ItemsSource = newKeyValuePairChartFirst;
+                newLineSeriesFirst.DependentValuePath = "Value";
+                newLineSeriesFirst.IndependentValuePath = "Key";
+                lineChart.Series.Clear();
+                lineChart.Series.Add(newLineSeriesFirst);
+
+                List<KeyValuePair<int, decimal>> newKeyValuePairChartSecond = new List<KeyValuePair<int, decimal>>();
+
+                for (int i = 0; i < newNasdaqChartSecond.Count; i++)
+                {
+                    newKeyValuePairChartSecond.Add(new KeyValuePair<int, decimal>(newNasdaqChartSecond[i].exchangeDate,
+                        newNasdaqChartSecond[i].closingPrice));
+                }
+
+
+                LineSeries newLineSeriesSecond = new LineSeries();
+                newLineSeriesSecond.Title = listBoxSecond.SelectedItem.ToString();
+                newLineSeriesSecond.ItemsSource = newKeyValuePairChartSecond;
+                newLineSeriesSecond.DependentValuePath = "Value";
+                newLineSeriesSecond.IndependentValuePath = "Key";
+              
+                lineChart.Series.Add(newLineSeriesSecond);
+
+
+
             }
             else
             {

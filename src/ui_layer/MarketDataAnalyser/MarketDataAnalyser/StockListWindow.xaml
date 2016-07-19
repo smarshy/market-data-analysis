@@ -12,8 +12,8 @@
         <Label x:Name="lblTitle" Content="Market Data Analyser" Height="100" Canvas.Left="30" Width="836" FontSize="70" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Canvas.Top="48" FontWeight="Medium"/>
         <Image x:Name="imgLogoLogin" Height="160" Canvas.Left="980" Canvas.Top="10" Width="290" Source="C:\Users\Grad51\Downloads\Ayush_Goyal_VB\ui_layer\design\change1\logoFinal1.png"/>
 
-        <ListBox x:Name="lstStocks" HorizontalAlignment="Left" Height="318" Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" Width="227" Grid.ColumnSpan="2" Canvas.Top="343" Loaded="ShowStockList" SelectionChanged="ChangeSelection" Canvas.Left="59"/>
-        <Label x:Name="lblStockName" Grid.ColumnSpan="2" Content="StockName" Grid.Column="1" HorizontalAlignment="Left" Height="48" Grid.RowSpan="2" VerticalAlignment="Top" Width="206" FontSize="35" Canvas.Left="361" Canvas.Top="182" FontWeight="Bold"/>
+        <ListBox x:Name="lstStocks" HorizontalAlignment="Left" Height="272" Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" Width="227" Grid.ColumnSpan="2" Canvas.Top="389" Loaded="ShowStockList" SelectionChanged="ChangeSelection" Canvas.Left="59"/>
+        <Label x:Name="lblStockName" Grid.ColumnSpan="2" Content="Stock" Grid.Column="1" HorizontalAlignment="Left" Height="48" Grid.RowSpan="2" VerticalAlignment="Top" Width="125" FontSize="35" Canvas.Left="361" Canvas.Top="182" FontWeight="Bold"/>
         <chartingToolkit:Chart Name="lineChart"
                                         Canvas.Left="736" Canvas.Top="268" Width="587" Height="372" BorderBrush="{x:Null}">
 
@@ -26,6 +26,9 @@
         <Button x:Name="btnSnap" Content="Snap" Height="33" Canvas.Left="1118" Canvas.Top="233" Width="104" Background="#FFE2E0E0" FontSize="16" Click="SnapGraph"/>
         <ComboBox x:Name="comboBoxCountry" Height="33" Canvas.Left="59" Canvas.Top="220" Width="227" RenderTransformOrigin="0.187,0.544" Loaded="ShowCountry" SelectedIndex="0" Background="#FFE2E0E0" VerticalContentAlignment="Center"/>
         <ComboBox x:Name="comboBoxSector" Height="35" Canvas.Left="59" Canvas.Top="258" Width="227" RenderTransformOrigin="0.187,0.544" Loaded="ShowSectors" SelectedIndex="0" Background="#FFE2E0E0" VerticalContentAlignment="Center"/>
+
+        <Polygon x:Name="greenArrow" Visibility="Hidden" Points="10,0,50,0,30,-30" Stroke="#FF3E872C" Fill="#FF3E872C" Canvas.Left="491" Canvas.Top="225" />
+        <Polygon x:Name="redArrow" Visibility="Hidden" Points="10,0,50,0,30,30" Stroke="#FFC8140A" Fill="#FFC8140A" Canvas.Left="491" Canvas.Top="195" />
 
         <Separator Height="45" Canvas.Left="112" Margin="0" Canvas.Top="416" Width="462" RenderTransformOrigin="0.5,0.5">
             <Separator.RenderTransform>
@@ -71,9 +74,11 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <Label x:Name="label" Content="List of stocks" Height="40" Canvas.Left="96" Canvas.Top="304" Width="146" HorizontalContentAlignment="Center" FontSize="20"/>
+        <Label x:Name="label" Content="List of stocks" Height="40" Canvas.Left="100" Canvas.Top="350" Width="146" HorizontalContentAlignment="Center" FontSize="20"/>
         <ComboBox x:Name="comboBoxExchange" Height="33" Canvas.Left="59" Canvas.Top="182" Width="227" RenderTransformOrigin="0.187,0.544" Loaded="ShowExchange" SelectedIndex="0" Background="#FFE2E0E0" VerticalContentAlignment="Center"/>
         <Button x:Name="btnBack" Content="Back" Height="38" Canvas.Left="59" Canvas.Top="5" Width="87" Click="ShowMainWindow" Background="#FFE2E0E0" FontSize="16"/>
         <Button x:Name="btnSignOut" Content="Sign out" Height="34" Canvas.Left="1223" Canvas.Top="640" Width="100" Click="ShowLoginWindow" Background="#FFE2E0E0" FontSize="16"/>
+        <Button x:Name="btnFilter" Content="Filter" Height="35" Canvas.Left="118" Canvas.Top="304" Width="102" Background="#FFE2E0E0" FontSize="16" Click="FliterTheList"/>
+        <Label x:Name="lblTickerValue" Content="Value" HorizontalAlignment="Left" Height="48" VerticalAlignment="Top" Width="112" FontSize="35" Canvas.Left="551" Canvas.Top="182" FontWeight="Bold"/>
     </Canvas>
 </Window>

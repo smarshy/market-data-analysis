@@ -72,6 +72,7 @@
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MovAvgTrend.cs" />
     <Compile Include="Nasdaq.cs" />
     <Compile Include="SignUpWindow.xaml.cs">
       <DependentUpon>SignUpWindow.xaml</DependentUpon>
@@ -82,6 +83,7 @@
     <Compile Include="StockListWindow.xaml.cs">
       <DependentUpon>StockListWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VolPriceTrend.cs" />
     <Page Include="CompareWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -7,23 +7,17 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Net;
+using System.Windows.Controls.DataVisualization.Charting;
 
 namespace MarketDataAnalyser
 {
     [DataContract]
-    class CompareStocks
+    class MovAvgTrend
     {
         [DataMember]
-        public Nasdaq stock1 { get; set; }
+        public int date { get; set; }
 
         [DataMember]
-        public Nasdaq stock2 { get; set; }
-
-        [DataMember]
-        public List<Nasdaq> listStock1 { get; set; }
-
-        [DataMember]
-        public List<Nasdaq> listStock2 { get; set; }
-
+        public decimal movingAverage { get; set; }
     }
 }

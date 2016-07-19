@@ -11,6 +11,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Net;
+using System.Windows.Controls.DataVisualization.Charting;
 
 namespace MarketDataAnalyser
 {
@@ -23,6 +28,11 @@ namespace MarketDataAnalyser
         {
             InitializeComponent();
         }
+
+        public static List<String> allStocks = new List<String>();
+        DataContractJsonSerializer serializerListString = new DataContractJsonSerializer(typeof(List<String>));
+        DataContractJsonSerializer serializerNasdaq = new DataContractJsonSerializer(typeof(Nasdaq));
+
 
         private void ShowMainWindow(object sender, RoutedEventArgs e)
         {
@@ -55,7 +65,18 @@ namespace MarketDataAnalyser
 
         private void LoadEverything(object sender, RoutedEventArgs e)
         {
-            
+            string getURL = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks";
+            WebClient newWebClient = new WebClient();
+
+
+            try {
+                Stream receivedStream = newWebClient.OpenRead(getURL);
+                allStocks = (List<String>)serializerListString.ReadObject(receivedStream);
+            }
+            catch
+            {
+                MessageBox.Show("Server unavailable");
+            }
         }
     }
 }
