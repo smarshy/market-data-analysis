@@ -30,6 +30,7 @@ namespace MarketDataAnalyser
             {
                 MainWindow newMainWindow = new MainWindow();
                 newMainWindow.Show();
+                this.Close();
             }
         }
 
@@ -37,6 +38,7 @@ namespace MarketDataAnalyser
         {
             SignUpWindow newSignUpWindow = new SignUpWindow();
             newSignUpWindow.Show();
+            this.Close();
         }
 
         private void LoadLogo(object sender, StylusEventArgs e)

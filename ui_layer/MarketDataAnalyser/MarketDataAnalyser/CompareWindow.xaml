@@ -9,9 +9,15 @@
         xmlns:local="clr-namespace:MarketDataAnalyser"
         mc:Ignorable="d"
         Title="CompareWindow" Height="725" Width="1370" Loaded="PopulateComboBoxes" WindowState="Maximized">
-    <Canvas>
+    <Canvas Background="#FFF5F2FA">
 
-        <Label x:Name="titleCompare" Content="Market Data Analyser" Height="100" Canvas.Left="30" Width="836" FontSize="70" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Canvas.Top="48"/>
+        <Label x:Name="titleCompare" Content="Market Data Analyser" Height="100" Canvas.Left="30" Width="836" FontSize="70" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Canvas.Top="48" FontWeight="Medium"/>
+
+        <Image x:Name="imgLogoLogin" Height="160" Canvas.Left="980" Canvas.Top="10" Width="290" Source="C:\Users\Grad51\Downloads\Ayush_Goyal_VB\ui_layer\design\change1\logoFinal1.png"/>
+
+        <Button x:Name="btnBack" Content="Back" Height="38" Canvas.Left="59" Canvas.Top="5" Width="87" Click="ShowMainWindow" Background="#FFE2E0E0" FontSize="16"/>
+
+        <Button x:Name="btnSignOut" Content="Sign out" Height="34" Canvas.Left="1223" Canvas.Top="640" Width="100" Click="ShowLoginWindow" Background="#FFE2E0E0" FontSize="16"/>
 
         <GroupBox x:Name="groupBoxFirst" Header="" Height="205" Canvas.Left="361" Canvas.Top="200" Width="333">
             <StackPanel x:Name="stackPanelStockDetails" Margin="0,-18,1,10">
@@ -61,13 +67,13 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <DatePicker x:Name="dateTo" Height="26" Canvas.Left="158" Canvas.Top="564" Width="102"/>
-        <DatePicker x:Name="dateFrom" Height="26" Canvas.Left="158" Canvas.Top="533" Width="102"/>
-        <ListBox x:Name="listBoxFirst" Height="129" Canvas.Left="84" Canvas.Top="215" Width="208" SelectedIndex="0"/>
-        <ListBox x:Name="listBoxSecond" Height="128" Canvas.Left="84" Canvas.Top="369" Width="208" SelectedIndex="0"/>
-        <Label x:Name="label" Content="From" Height="26" Canvas.Left="104" Canvas.Top="533" Width="54"/>
-        <Label x:Name="label_Copy" Content="To" Height="26" Canvas.Left="104" Canvas.Top="563" Width="49"/>
-        <Button x:Name="btnCompare" Content="Compare" Height="27" Canvas.Left="134" Canvas.Top="618" Width="99" Click="CompareTheStocks"/>
+        <DatePicker x:Name="dateTo" Height="26" Canvas.Left="158" Canvas.Top="584" Width="102"/>
+        <DatePicker x:Name="dateFrom" Height="26" Canvas.Left="158" Canvas.Top="553" Width="102"/>
+        <ListBox x:Name="listBoxFirst" Height="129" Canvas.Left="84" Canvas.Top="243" Width="208" SelectedIndex="0"/>
+        <ListBox x:Name="listBoxSecond" Height="128" Canvas.Left="84" Canvas.Top="413" Width="208" SelectedIndex="0"/>
+        <Label x:Name="label" Content="From" Height="26" Canvas.Left="104" Canvas.Top="553" Width="54"/>
+        <Label x:Name="label_Copy" Content="To" Height="26" Canvas.Left="104" Canvas.Top="583" Width="49"/>
+        <Button x:Name="btnCompare" Content="Compare" Height="27" Canvas.Left="136" Canvas.Top="630" Width="99" Click="CompareTheStocks" Background="#FFE2E0E0"/>
 
         <Separator Height="45" Canvas.Left="104" Margin="0" Canvas.Top="414" Width="458" RenderTransformOrigin="0.5,0.5">
             <Separator.RenderTransform>
@@ -94,9 +100,11 @@
 
 
         </chartingToolkit:Chart>
-        <Label x:Name="label1" Content="Select the stocks to compare" Height="30" Canvas.Left="84" Canvas.Top="182" Width="208"/>
+        <Label x:Name="label1" Content="Select the stocks to compare" Height="30" Canvas.Left="84" Canvas.Top="176" Width="208"/>
         <Label x:Name="lblStockNameFirst" Content="StockNameFirst" Height="30" Canvas.Left="361" Canvas.Top="182" Width="149"/>
-       
+        <ComboBox x:Name="comboBoxExchangeFirst" Height="33" Canvas.Left="84" Canvas.Top="205" Width="208" RenderTransformOrigin="0.187,0.544" Loaded="ShowExchangeFirst" SelectedIndex="0" Background="#FFE2E0E0" VerticalContentAlignment="Center"/>
+
         <Label x:Name="lblStockNameSecond" Content="StockNameSecond" Height="26" Canvas.Left="361" Canvas.Top="430" Width="97"/>
+        <ComboBox x:Name="comboBoxExchangeSecond" Height="33" Canvas.Left="84" Canvas.Top="377" Width="208" RenderTransformOrigin="0.187,0.544" Loaded="ShowExchangeSecond" SelectedIndex="0" Background="#FFE2E0E0" VerticalContentAlignment="Center"/>
     </Canvas>
 </Window>

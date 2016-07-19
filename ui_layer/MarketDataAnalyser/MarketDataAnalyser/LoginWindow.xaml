@@ -12,7 +12,7 @@
         <TextBox x:Name="txtUsernameLogin" Height="36" Canvas.Left="1089" TextWrapping="Wrap" Canvas.Top="311" Width="213" VerticalContentAlignment="Center"/>
         <Label x:Name="label2_Copy" Content="Password" Height="46" Canvas.Left="970" Canvas.Top="352" Width="109" VerticalContentAlignment="Center" FontSize="22"/>
         <PasswordBox x:Name="passwordLogin" Height="36" Canvas.Left="1089" Canvas.Top="360" Width="213" VerticalContentAlignment="Center"/>
-        <Button x:Name="btnLogin" Content="Login" Height="39" Canvas.Left="1197" Canvas.Top="420" Width="105" Click="ShowMainWindow" FontSize="22" />
+        <Button x:Name="btnLogin" Content="Login" Height="39" Canvas.Left="1197" Canvas.Top="420" Width="105" Click="ShowMainWindow" FontSize="22" Background="#FFE2E0E0" Cursor="Arrow" />
         <Separator Height="45" Canvas.Left="692" Margin="0" Canvas.Top="396" Width="458" RenderTransformOrigin="0.5,0.5">
             <Separator.RenderTransform>
                 <TransformGroup>
@@ -23,8 +23,8 @@
                 </TransformGroup>
             </Separator.RenderTransform>
         </Separator>
-        <Image x:Name="imgLogoLogin" Height="160" Canvas.Left="980" Canvas.Top="10" Width="290" LostStylusCapture="LoadLogo" Source="C:\Users\Grad51\Downloads\Ayush_Goyal_VB\ui_layer\design\LogoTeam202.jpg"/>
-        <Image x:Name="imgMainLogin" Height="400" Canvas.Left="59" Canvas.Top="218" Width="775" Source="C:\Users\Grad51\Downloads\Ayush_Goyal_VB\ui_layer\design\DummyGraph4.jpg"/>
+        <Image x:Name="imgLogoLogin" Height="160" Canvas.Left="980" Canvas.Top="10" Width="290" LostStylusCapture="LoadLogo" Source="C:\Users\Grad51\Downloads\Ayush_Goyal_VB\ui_layer\design\change1\logoFinal1.png"/>
+        <Image x:Name="imgMainLogin" Height="454" Canvas.Left="59" Canvas.Top="194" Width="785" Source="C:\Users\Grad51\Downloads\Ayush_Goyal_VB\ui_layer\design\change1\dummyGraphFinal.png"/>
         <Button x:Name="btnNewUser" Content="Click here to Sign up..." Height="47" Canvas.Left="1067" Canvas.Top="547" Width="203" Background="#FFF5F2FA" BorderBrush="#FFF5F2FA" BorderThickness="0" Click="ShowSignUpWindow" FontSize="18"/>
         <Label x:Name="label" Content="New user?" Height="43" Canvas.Left="1114" Canvas.Top="514" Width="92" FontSize="18"/>
 

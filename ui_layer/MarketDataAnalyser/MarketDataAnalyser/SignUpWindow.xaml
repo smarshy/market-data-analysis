@@ -12,7 +12,7 @@
         <TextBox x:Name="txtUsernameSign" Height="44" Canvas.Left="1089" TextWrapping="Wrap" Canvas.Top="222" Width="213" VerticalContentAlignment="Center"/>
         <Label x:Name="label2_Copy" Content="Password" Height="44" Canvas.Left="894" Canvas.Top="280" Width="115" FontSize="22"/>
         <PasswordBox x:Name="passwordSign" Height="37" Canvas.Left="1089" Canvas.Top="280" Width="213" VerticalContentAlignment="Center"/>
-        <Button x:Name="btnSignUp" Content="Sign up" Height="51" Canvas.Left="1207" Canvas.Top="550" Width="95" />
+        <Button x:Name="btnSignUp" Content="Sign up" Height="51" Canvas.Left="1193" Canvas.Top="532" Width="109" FontSize="22" Background="#FFE2E0E0" Click="ShowMainWindow" />
         <Separator Height="45" Canvas.Left="640" Margin="0" Canvas.Top="398" Width="458" RenderTransformOrigin="0.5,0.5">
             <Separator.RenderTransform>
                 <TransformGroup>
@@ -23,8 +23,8 @@
                 </TransformGroup>
             </Separator.RenderTransform>
         </Separator>
-        <Image x:Name="imgLogoSign" Height="100" Canvas.Left="980" Canvas.Top="48" Width="290" Source="C:\Users\Grad51\Downloads\Ayush_Goyal_VB\ui_layer\design\LogoTeam202.jpg"/>
-        <Image x:Name="imgMainSign" Height="400" Canvas.Left="59" Canvas.Top="218" Width="775" Source="C:\Users\Grad51\Downloads\Ayush_Goyal_VB\ui_layer\design\DummyGraph4.jpg"/>
+        <Image x:Name="imgLogoSign" Height="160" Canvas.Left="980" Canvas.Top="10" Width="290" Source="C:\Users\Grad51\Downloads\Ayush_Goyal_VB\ui_layer\design\change1\logoFinal1.png"/>
+        <Image x:Name="imgMainSign" Height="400" Canvas.Left="59" Canvas.Top="218" Width="775" Source="C:\Users\Grad51\Downloads\Ayush_Goyal_VB\ui_layer\design\change1\dummyGraphFinal.png"/>
         <Label x:Name="label2_Copy1" Content="Confirm password" Height="44" Canvas.Left="892" Canvas.Top="332" Width="191" FontSize="22"/>
         <PasswordBox x:Name="passwordConfirmSign" Height="37" Canvas.Left="1089" Canvas.Top="332" Width="213" VerticalContentAlignment="Center"/>
         <Label x:Name="label2_Copy2" Content="Email ID" Height="44" Canvas.Left="894" Canvas.Top="384" Width="115" FontSize="22"/>

@@ -89,6 +89,32 @@ namespace MarketDataAnalyser
             }
         }
 
-        
+        private void ShowExchangeFirst(object sender, RoutedEventArgs e)
+        {
+            comboBoxExchangeFirst.Items.Add("NASDAQ");
+            comboBoxExchangeFirst.Items.Add("NYSE");
+            comboBoxExchangeFirst.Items.Add("LIFFE");
+        }
+
+        private void ShowExchangeSecond(object sender, RoutedEventArgs e)
+        {
+            comboBoxExchangeSecond.Items.Add("NASDAQ");
+            comboBoxExchangeSecond.Items.Add("NYSE");
+            comboBoxExchangeSecond.Items.Add("LIFFE");
+        }
+
+        private void ShowMainWindow(object sender, RoutedEventArgs e)
+        {
+            MainWindow newMainWindow = new MainWindow();
+            newMainWindow.Show();
+            this.Close();
+        }
+
+        private void ShowLoginWindow(object sender, RoutedEventArgs e)
+        {
+            LoginWindow newLoginWindow = new LoginWindow();
+            newLoginWindow.Show();
+            this.Close();
+        }
     }
 }

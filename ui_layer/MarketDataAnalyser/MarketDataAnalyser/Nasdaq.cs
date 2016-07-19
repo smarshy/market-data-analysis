@@ -45,17 +45,28 @@ namespace MarketDataAnalyser
         [DataMember]
         public int volume { get; set; }
 
-        public Nasdaq(decimal newClosingPrice,int newExchangeDate,
-            decimal newHigh,decimal newLow,decimal newOpeningPrice,String newTicker,int newVolume)
-        {
-            closingPrice = newClosingPrice;
-            exchangeDate = newExchangeDate;
-            high = newHigh;
-            low = newLow;
-            openingPrice = newOpeningPrice;
-            ticker = newTicker;
-            volume = newVolume;
-        }
+        [DataMember]
+        public bool upArrow { get; set; }
+
+        [DataMember]
+        public Exchange exchange { get; set; }
+
+        //public Nasdaq(decimal newClosingPrice,int newExchangeDate,
+        //    decimal newHigh,decimal newLow,decimal newOpeningPrice,String newTicker,int newVolume,bool newArrow,Exchange newExchange)
+        //{
+        //    closingPrice = newClosingPrice;
+        //    exchangeDate = newExchangeDate;
+        //    high = newHigh;
+        //    low = newLow;
+        //    openingPrice = newOpeningPrice;
+        //    ticker = newTicker;
+        //    volume = newVolume;
+        //    upArrow = newArrow;
+        //    exchange = new Exchange(newExchange.marketID, newExchange.marketName);
+        //}
+
+
+            public Nasdaq() { }
 
         public override string ToString()
         {
