@@ -11,6 +11,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Net;
+using System.Windows.Controls.DataVisualization.Charting;
 
 namespace MarketDataAnalyser
 {
@@ -24,13 +29,28 @@ namespace MarketDataAnalyser
             InitializeComponent();
         }
 
+        public static List<String> allStocks = new List<String>();
+        public static List<String> allStocksLiffe = new List<string>();
+        public static List<String> allStocksForex = new List<string>();
+        public static Nasdaq defaultStock = new Nasdaq();
+
+        DataContractJsonSerializer serializerListString = new DataContractJsonSerializer(typeof(List<String>));
+        DataContractJsonSerializer serializerNasdaq = new DataContractJsonSerializer(typeof(Nasdaq));
+        DataContractJsonSerializer serializerStockMarkets = new DataContractJsonSerializer(typeof(StockMarkets));
+
+
         private void ShowMainWindow(object sender, RoutedEventArgs e)
         {
-            if (txtUsernameLogin.Text != null)
+            string password = passwordLogin.Password;
+            if (!(String.IsNullOrWhiteSpace(txtUsernameLogin.Text) || String.IsNullOrWhiteSpace(password)))
             {
                 MainWindow newMainWindow = new MainWindow();
                 newMainWindow.Show();
                 this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Please enter all details");
             }
         }
 
@@ -55,7 +75,37 @@ namespace MarketDataAnalyser
 
         private void LoadEverything(object sender, RoutedEventArgs e)
         {
-            
+            string getURL = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks";
+            WebClient newWebClient = new WebClient();
+            newWebClient.Proxy = null;
+
+            try {
+                Stream receivedStream = newWebClient.OpenRead(getURL);
+                StockMarkets newStockMarkets = (StockMarkets)serializerStockMarkets.ReadObject(receivedStream);
+
+                allStocks = newStockMarkets.nasdaqStockList;
+                allStocksLiffe = newStockMarkets.liffeStockList;
+                allStocksForex = newStockMarkets.forexStockList;
+                defaultStock = newStockMarkets.defaultStock;
+
+                //allStocks = (List<String>)serializerListString.ReadObject(receivedStream);
+            }
+            catch
+            {
+                MessageBox.Show("Server unavailable. Please check the connection.");
+            }
+        }
+
+        public string PipelineTest()
+        {
+            string getURL = "";
+            WebClient newWebClient = new WebClient();
+            newWebClient.Proxy = null;
+
+            string receivedString = newWebClient.DownloadString(getURL);
+
+            return receivedString;
+
         }
     }
 }

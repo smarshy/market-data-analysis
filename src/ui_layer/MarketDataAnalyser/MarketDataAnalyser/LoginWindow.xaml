@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarketDataAnalyser"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="725" Width="1370" WindowState="Maximized" Loaded="LoadEverything" >
+        Title="LoginWindow" Height="725" Width="1370" WindowState="Maximized" Loaded="LoadEverything" Icon="C:\Users\Grad51\Downloads\Ayush_Goyal_VB\ui_layer\design\logoBig2.png" >
     <Canvas Background="#FFF5F2FA" >
-        <Label x:Name="titleLogin" Content="Market Data Analyser" Height="122" Canvas.Left="30" Width="878" FontSize="70" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Canvas.Top="48" FontWeight="Medium"/>
+        <Label x:Name="titleLogin" Content="Market Data Acrobat" Height="122" Canvas.Left="30" Width="878" FontSize="70" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Canvas.Top="48" FontWeight="Medium"/>
         <Label x:Name="label2" Content="Username" Height="35" Canvas.Left="970" Canvas.Top="310" Width="113" VerticalContentAlignment="Center" FontSize="22"/>
         <TextBox x:Name="txtUsernameLogin" Height="36" Canvas.Left="1089" TextWrapping="Wrap" Canvas.Top="311" Width="213" VerticalContentAlignment="Center"/>
         <Label x:Name="label2_Copy" Content="Password" Height="46" Canvas.Left="970" Canvas.Top="352" Width="109" VerticalContentAlignment="Center" FontSize="22"/>

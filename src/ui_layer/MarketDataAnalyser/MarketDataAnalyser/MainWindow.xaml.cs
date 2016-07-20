@@ -31,10 +31,10 @@ namespace MarketDataAnalyser
             InitializeComponent();
         }
 
-        public static List<String> allStocks = new List<String>();
+        // public static List<String> allStocks = new List<String>();
         DataContractJsonSerializer serializerListString = new DataContractJsonSerializer(typeof(List<String>));
         DataContractJsonSerializer serializerNasdaq = new DataContractJsonSerializer(typeof(Nasdaq));
-        
+        public static List<Nasdaq> newNasdaqList = new List<Nasdaq>();
 
 
         private void ShowStockListWindow(object sender, RoutedEventArgs e)
@@ -54,75 +54,305 @@ namespace MarketDataAnalyser
 
         private void ShowSpecificStockWindow(object sender, RoutedEventArgs e)
         {
-            //if (txtSearch.SelectionLength == 0)
-            //{
-            //    MessageBox.Show("Please enter a stock");
-            //}
-            //else
-            //{
-
-            //}
-
-            string getURL = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/query";
-            WebClient newWebClient = new WebClient();
-   
-
-            var newSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-            string receivedString = newWebClient.DownloadString(getURL + "?ticker=" + txtSearch.Text.ToString());
-            Nasdaq newNasdaq = newSerializer.Deserialize<Nasdaq>(receivedString);
-
-
-            lblStockName.Content = newNasdaq.ticker;
-            lblOpeningPrice.Content = newNasdaq.openingPrice;
-            lblClosingPrice.Content = newNasdaq.closingPrice;
-            lblHigh.Content = newNasdaq.high;
-            lblLow.Content = newNasdaq.low;
-            lblVolume.Content = newNasdaq.volume;
-            //MessageBox.Show(newNasdaq.ToString());
-
-            string getURLChart = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/variation";
-
-            string receivedStringChart = newWebClient.DownloadString(getURLChart + "/" + 
-                txtSearch.Text.ToString() + "/20110103/20110113");
-            List<Nasdaq> newNasdaqList = newSerializer.Deserialize<List<Nasdaq>>(receivedStringChart);
-            List<KeyValuePair<int,decimal>> newKeyValuePairChart = new List<KeyValuePair<int, decimal>>();
-            
-            for(int i = 0; i < newNasdaqList.Count; i++)
+            if (String.IsNullOrWhiteSpace(txtSearch.Text))
             {
-               newKeyValuePairChart.Add( new KeyValuePair<int, decimal>(newNasdaqList[i].exchangeDate, 
-                   newNasdaqList[i].closingPrice));
+                MessageBox.Show("Please enter a stock");
+                txtSearch.Clear();
             }
+            else
+            {
 
-           
 
-            LineSeries newLineSeries = new LineSeries();
-            newLineSeries.Title = newNasdaq.ticker.ToString();
-            newLineSeries.ItemsSource = newKeyValuePairChart;
-            newLineSeries.DependentValuePath = "Value";
-            newLineSeries.IndependentValuePath = "Key";
-            lineChart.Series.Clear();
-            lineChart.Series.Add(newLineSeries);
-            
-             
-            
 
+                try
+                {
+
+                    string getURL = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/NASDAQ/details";
+                    WebClient newWebClient = new WebClient();
+                    newWebClient.Proxy = null;
+
+                    greenArrow.Visibility = Visibility.Hidden;
+                    redArrow.Visibility = Visibility.Hidden;
+
+                    var newSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                    string receivedString = newWebClient.DownloadString(getURL + "/" + txtSearch.Text.ToString());
+                    Nasdaq newNasdaq = newSerializer.Deserialize<Nasdaq>(receivedString);
+
+
+
+                    lblStockName.Content = newNasdaq.ticker;
+                    lblOpeningPrice.Content = newNasdaq.openingPrice;
+                    lblClosingPrice.Content = newNasdaq.closingPrice;
+                    lblHigh.Content = newNasdaq.high;
+                    lblLow.Content = newNasdaq.low;
+                    lblVolume.Content = newNasdaq.volume;
+                    lblTickerValue.Content = Math.Abs(newNasdaq.upArrow);
+
+                    if (Decimal.Compare(newNasdaq.upArrow, 0) >= 0)
+                    {
+                        greenArrow.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        redArrow.Visibility = Visibility.Visible;
+                    }
+                    //MessageBox.Show(newNasdaq.ToString());
+
+                    string getURLChart = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/NASDAQ/variation";
+
+                    string receivedStringChart = newWebClient.DownloadString(getURLChart + "/" +
+                        txtSearch.Text.ToString());
+                    newNasdaqList = newSerializer.Deserialize<List<Nasdaq>>(receivedStringChart);
+                    List<KeyValuePair<int, decimal>> newKeyValuePairChart = new List<KeyValuePair<int, decimal>>();
+
+                    for (int i = 0; i < newNasdaqList.Count; i++)
+                    {
+                        newKeyValuePairChart.Add(new KeyValuePair<int, decimal>(newNasdaqList[i].exchangeDate,
+                            newNasdaqList[i].closingPrice));
+                    }
+
+
+
+                    LineSeries newLineSeries = new LineSeries();
+                    newLineSeries.Title = newNasdaq.ticker.ToString();
+                    newLineSeries.ItemsSource = newKeyValuePairChart;
+                    newLineSeries.DependentValuePath = "Value";
+                    newLineSeries.IndependentValuePath = "Key";
+                    lineChart.Series.Clear();
+                    lineChart.Series.Add(newLineSeries);
+
+
+
+
+                }
+                catch
+                {
+                    MessageBox.Show("Stock does not exist");
+                }
+            }
         }
 
-        private void PopulateList(object sender, RoutedEventArgs e)
-        {
-            string getURL = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks";
-            WebClient newWebClient = new WebClient();
-
-
-            Stream receivedStream = newWebClient.OpenRead(getURL);
-            allStocks = (List<String>)serializerListString.ReadObject(receivedStream);
-        }
 
         private void ShowLoginWindow(object sender, RoutedEventArgs e)
         {
             LoginWindow newLoginWindow = new LoginWindow();
             newLoginWindow.Show();
             this.Close();
+        }
+
+        private void ShowDefaultStock(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                string getURL = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/NASDAQ/details";
+                WebClient newWebClient = new WebClient();
+                newWebClient.Proxy = null;
+
+                greenArrow.Visibility = Visibility.Hidden;
+                redArrow.Visibility = Visibility.Hidden;
+
+
+                var newSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                string receivedString = newWebClient.DownloadString(getURL + "/AAPL");
+                Nasdaq newNasdaq = newSerializer.Deserialize<Nasdaq>(receivedString);
+
+                // Nasdaq newTempNasdaq = LoginWindow.defaultStock;
+
+                lblStockName.Content = "CITI";
+                lblOpeningPrice.Content = newNasdaq.openingPrice;
+                lblClosingPrice.Content = newNasdaq.closingPrice;
+                lblHigh.Content = newNasdaq.high;
+                lblLow.Content = newNasdaq.low;
+                lblVolume.Content = newNasdaq.volume;
+
+                lblTickerValue.Content = Math.Abs(newNasdaq.upArrow);
+
+                if (Decimal.Compare(newNasdaq.upArrow, 0) >= 0)
+                {
+                    greenArrow.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    redArrow.Visibility = Visibility.Visible;
+                }
+                //MessageBox.Show(newNasdaq.ToString());
+
+                string getURLChart = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/NASDAQ/variation";
+
+                string receivedStringChart = newWebClient.DownloadString(getURLChart + "/" + newNasdaq.ticker.ToString());
+                List<Nasdaq> newNasdaqListDefault = newSerializer.Deserialize<List<Nasdaq>>(receivedStringChart);
+                List<KeyValuePair<int, decimal>> newKeyValuePairChart = new List<KeyValuePair<int, decimal>>();
+
+                for (int i = 0; i < newNasdaqListDefault.Count; i++)
+                {
+                    newKeyValuePairChart.Add(new KeyValuePair<int, decimal>(newNasdaqListDefault[i].exchangeDate,
+                        newNasdaqListDefault[i].closingPrice));
+                }
+
+
+
+                LineSeries newLineSeries = new LineSeries();
+                newLineSeries.Title = "CITI";
+                newLineSeries.ItemsSource = newKeyValuePairChart;
+                newLineSeries.DependentValuePath = "Value";
+                newLineSeries.IndependentValuePath = "Key";
+                lineChart.Series.Clear();
+                lineChart.Series.Add(newLineSeries);
+
+
+
+            }
+            catch
+            {
+                MessageBox.Show("Server unavailable. Please check the connection.");
+            }
+
+        }
+
+        private void ShowMovingAverage(object sender, RoutedEventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                MessageBox.Show("Please enter a stock.");
+            }
+            else
+            {
+                try
+                {
+                    string getURLChart = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/movingAverage";
+                    var newSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+
+
+
+                    WebClient newWebClient = new WebClient();
+
+                    string receivedStringChart = newWebClient.DownloadString(getURLChart + "/" + lblStockName.Content);
+
+
+                    List<MovingAverageTrend> newMovAvgTrendChart = newSerializer.Deserialize<List<MovingAverageTrend>>(receivedStringChart);
+                    List<KeyValuePair<int, decimal>> newKeyValuePairChart = new List<KeyValuePair<int, decimal>>();
+                    List<KeyValuePair<int, decimal>> newKeyValuePairChartPrice = new List<KeyValuePair<int, decimal>>();
+
+
+                    for (int i = 0; i < newMovAvgTrendChart.Count; i++)
+                    {
+                        newKeyValuePairChart.Add(new KeyValuePair<int, decimal>(newMovAvgTrendChart[i].date,
+                            newMovAvgTrendChart[i].ma));
+                    }
+
+                    for (int i = 0; i < newNasdaqList.Count; i++)
+                    {
+                        newKeyValuePairChartPrice.Add(new KeyValuePair<int, decimal>(newNasdaqList[i].exchangeDate,
+                            newNasdaqList[i].closingPrice));
+                    }
+
+                    LineSeries newLineSeries = new LineSeries();
+                    newLineSeries.Title = "Moving average";
+                    newLineSeries.ItemsSource = newKeyValuePairChart;
+                    newLineSeries.DependentValuePath = "Value";
+                    newLineSeries.IndependentValuePath = "Key";
+
+                    LineSeries newLineSeriesPrice = new LineSeries();
+                    newLineSeriesPrice.Title = "Price";
+                    newLineSeriesPrice.ItemsSource = newKeyValuePairChartPrice;
+                    newLineSeriesPrice.DependentValuePath = "Value";
+                    newLineSeriesPrice.IndependentValuePath = "Key";
+
+                    lineChart.Series.Clear();
+                    // lineChart.Series.Add(newLineSeriesPrice);
+                    lineChart.Series.Add(newLineSeries);
+
+                }
+                catch
+                {
+                    MessageBox.Show("Server unavailable. Please check the connection.");
+                }
+            }
+        }
+
+        private void ShowVolumePriceTrend(object sender, RoutedEventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                MessageBox.Show("Please enter a stock.");
+            }
+            else
+            {
+
+                try
+                {
+                    string getURLChart = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/volumePriceTrend";
+                    var newSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+
+
+
+                    WebClient newWebClient = new WebClient();
+
+                    string receivedStringChart = newWebClient.DownloadString(getURLChart + "/" + lblStockName.Content);
+
+
+                    List<VolumePriceTrend> newVolProceTrendChart = newSerializer.Deserialize<List<VolumePriceTrend>>(receivedStringChart);
+                    List<KeyValuePair<int, decimal>> newKeyValuePairChart = new List<KeyValuePair<int, decimal>>();
+                    List<KeyValuePair<int, decimal>> newKeyValuePairChartPrice = new List<KeyValuePair<int, decimal>>();
+
+
+
+                    for (int i = 0; i < newVolProceTrendChart.Count; i++)
+                    {
+                        newKeyValuePairChart.Add(new KeyValuePair<int, decimal>(newVolProceTrendChart[i].date,
+                            newVolProceTrendChart[i].vpt));
+                    }
+
+                    for (int i = 0; i < newNasdaqList.Count; i++)
+                    {
+                        newKeyValuePairChartPrice.Add(new KeyValuePair<int, decimal>(newNasdaqList[i].exchangeDate,
+                            newNasdaqList[i].closingPrice));
+                    }
+
+                    LineSeries newLineSeries = new LineSeries();
+                    newLineSeries.Title = lblStockName.Content;
+                    newLineSeries.ItemsSource = newKeyValuePairChart;
+                    newLineSeries.DependentValuePath = "Value";
+                    newLineSeries.IndependentValuePath = "Key";
+
+                    LineSeries newLineSeriesPrice = new LineSeries();
+                    newLineSeriesPrice.Title = "Price";
+                    newLineSeriesPrice.ItemsSource = newKeyValuePairChartPrice;
+                    newLineSeriesPrice.DependentValuePath = "Value";
+                    newLineSeriesPrice.IndependentValuePath = "Key";
+
+                    lineChart.Series.Clear();
+                    // lineChart.Series.Add(newLineSeriesPrice);
+                    lineChart.Series.Add(newLineSeries);
+                }
+                catch
+                {
+                    MessageBox.Show("Server unavailable. Please check the connection.");
+                }
+            }
+
+        }
+
+        private void ShowPriceTrend(object sender, RoutedEventArgs e)
+        {
+            List<KeyValuePair<int, decimal>> newKeyValuePairChartPrice = new List<KeyValuePair<int, decimal>>();
+            for (int i = 0; i < newNasdaqList.Count; i++)
+            {
+                newKeyValuePairChartPrice.Add(new KeyValuePair<int, decimal>(newNasdaqList[i].exchangeDate,
+                    newNasdaqList[i].closingPrice));
+            }
+
+            LineSeries newLineSeriesPrice = new LineSeries();
+            newLineSeriesPrice.Title = "Price";
+            newLineSeriesPrice.ItemsSource = newKeyValuePairChartPrice;
+            newLineSeriesPrice.DependentValuePath = "Value";
+            newLineSeriesPrice.IndependentValuePath = "Key";
+            lineChart.Series.Clear();
+            lineChart.Series.Add(newLineSeriesPrice);
+
         }
     }
 }
