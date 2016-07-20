@@ -57,7 +57,7 @@ namespace MarketDataAnalyser
             if (String.IsNullOrWhiteSpace(txtSearch.Text))
             {
                 MessageBox.Show("Please enter a stock");
-                txtSearch.Clear();
+                txtSearch.Text = String.Empty;
             }
             else
             {
@@ -120,6 +120,7 @@ namespace MarketDataAnalyser
                     newLineSeries.IndependentValuePath = "Key";
                     lineChart.Series.Clear();
                     lineChart.Series.Add(newLineSeries);
+                    lineChart.Title = "Price Trend";
 
 
 
@@ -199,6 +200,7 @@ namespace MarketDataAnalyser
                 newLineSeries.IndependentValuePath = "Key";
                 lineChart.Series.Clear();
                 lineChart.Series.Add(newLineSeries);
+                lineChart.Title = "Price Trend";
 
 
 
@@ -263,6 +265,7 @@ namespace MarketDataAnalyser
                     lineChart.Series.Clear();
                     // lineChart.Series.Add(newLineSeriesPrice);
                     lineChart.Series.Add(newLineSeries);
+                    lineChart.Title = " Moving Average Trend";
 
                 }
                 catch
@@ -327,6 +330,7 @@ namespace MarketDataAnalyser
                     lineChart.Series.Clear();
                     // lineChart.Series.Add(newLineSeriesPrice);
                     lineChart.Series.Add(newLineSeries);
+                    lineChart.Title = "Volume Price Trend";
                 }
                 catch
                 {

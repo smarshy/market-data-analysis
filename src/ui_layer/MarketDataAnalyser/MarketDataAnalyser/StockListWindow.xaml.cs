@@ -106,6 +106,7 @@ namespace MarketDataAnalyser
                         newLineSeries.IndependentValuePath = "Key";
                         lineChart.Series.Clear();
                         lineChart.Series.Add(newLineSeries);
+                        lineChart.Title = "Price Trend";
 
                     }
                     else if (comboBoxExchange.SelectedItem.Equals("Forex"))
@@ -163,6 +164,7 @@ namespace MarketDataAnalyser
                         newLineSeries.IndependentValuePath = "Key";
                         lineChart.Series.Clear();
                         lineChart.Series.Add(newLineSeries);
+                        lineChart.Title = "Price Trend";
                     }
                     else
                     {
@@ -219,6 +221,7 @@ namespace MarketDataAnalyser
                         newLineSeries.IndependentValuePath = "Key";
                         lineChart.Series.Clear();
                         lineChart.Series.Add(newLineSeries);
+                        lineChart.Title = "Price Trend";
                     }
                 }
             }
@@ -228,7 +231,7 @@ namespace MarketDataAnalyser
             }
 
         }
-        
+
 
         private void ShowStockList(object sender, RoutedEventArgs e)
         {
@@ -264,7 +267,7 @@ namespace MarketDataAnalyser
         {
             comboBoxSector.Items.Add("All Sectors");
             comboBoxSector.Items.Add("Automotive");
-            comboBoxSector.Items.Add("Banking/Finance");
+            comboBoxSector.Items.Add("Banking and Finance");
             comboBoxSector.Items.Add("Engineering");
             comboBoxSector.Items.Add("Oil and Gas");
             comboBoxSector.Items.Add("Technology");
@@ -303,115 +306,117 @@ namespace MarketDataAnalyser
                     try
                     {
                         if (comboBoxExchange.SelectedItem.Equals("Nasdaq"))
-                    {
-                        string getURLChart = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/NASDAQ/variation";
-                        var newSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-
-
-                        DateTime newFromDate = (DateTime)fromDate.SelectedDate;
-                        DateTime newToDate = (DateTime)toDate.SelectedDate;
-
-                        WebClient newWebClient = new WebClient();
-                        newWebClient.Proxy = null;
-
-                        string receivedStringChart = newWebClient.DownloadString(getURLChart + "/" +
-                            lstStocks.SelectedItem.ToString() + "/" + newFromDate.ToString("yyyyMMdd") + "/" + newToDate.ToString("yyyyMMdd"));
-
-
-                        List<Nasdaq> newNasdaqList = newSerializer.Deserialize<List<Nasdaq>>(receivedStringChart);
-                        List<KeyValuePair<int, decimal>> newKeyValuePairChart = new List<KeyValuePair<int, decimal>>();
-
-                        for (int i = 0; i < newNasdaqList.Count; i++)
                         {
-                            newKeyValuePairChart.Add(new KeyValuePair<int, decimal>(newNasdaqList[i].exchangeDate,
-                                newNasdaqList[i].closingPrice));
+                            string getURLChart = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/NASDAQ/variation";
+                            var newSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+
+                            DateTime newFromDate = (DateTime)fromDate.SelectedDate;
+                            DateTime newToDate = (DateTime)toDate.SelectedDate;
+
+                            WebClient newWebClient = new WebClient();
+                            newWebClient.Proxy = null;
+
+                            string receivedStringChart = newWebClient.DownloadString(getURLChart + "/" +
+                                lstStocks.SelectedItem.ToString() + "/" + newFromDate.ToString("yyyyMMdd") + "/" + newToDate.ToString("yyyyMMdd"));
+
+
+                            List<Nasdaq> newNasdaqList = newSerializer.Deserialize<List<Nasdaq>>(receivedStringChart);
+                            List<KeyValuePair<int, decimal>> newKeyValuePairChart = new List<KeyValuePair<int, decimal>>();
+
+                            for (int i = 0; i < newNasdaqList.Count; i++)
+                            {
+                                newKeyValuePairChart.Add(new KeyValuePair<int, decimal>(newNasdaqList[i].exchangeDate,
+                                    newNasdaqList[i].closingPrice));
+                            }
+
+
+                            LineSeries newLineSeries = new LineSeries();
+                            newLineSeries.Title = lstStocks.SelectedItem.ToString();
+                            newLineSeries.ItemsSource = newKeyValuePairChart;
+                            newLineSeries.DependentValuePath = "Value";
+                            newLineSeries.IndependentValuePath = "Key";
+                            lineChart.Series.Clear();
+                            lineChart.Series.Add(newLineSeries);
+                            lineChart.Title = "Price Trend";
+
+                        }
+                        else if (comboBoxExchange.SelectedItem.Equals("Forex"))
+                        {
+                            string getURLChart = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/FOREX/variation";
+                            var newSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+
+                            DateTime newFromDate = (DateTime)fromDate.SelectedDate;
+                            DateTime newToDate = (DateTime)toDate.SelectedDate;
+
+                            WebClient newWebClient = new WebClient();
+                            newWebClient.Proxy = null;
+
+                            string receivedStringChart = newWebClient.DownloadString(getURLChart + "/" +
+                                lstStocks.SelectedItem.ToString() + "/" + newFromDate.ToString("yyyyMMdd") + "/" + newToDate.ToString("yyyyMMdd"));
+
+
+                            List<Forex> newNasdaqList = newSerializer.Deserialize<List<Forex>>(receivedStringChart);
+                            List<KeyValuePair<int, decimal>> newKeyValuePairChart = new List<KeyValuePair<int, decimal>>();
+
+                            for (int i = 0; i < newNasdaqList.Count; i++)
+                            {
+                                newKeyValuePairChart.Add(new KeyValuePair<int, decimal>(newNasdaqList[i].exchangeDate,
+                                    newNasdaqList[i].closingPrice));
+                            }
+
+
+                            LineSeries newLineSeries = new LineSeries();
+                            newLineSeries.Title = lstStocks.SelectedItem.ToString();
+                            newLineSeries.ItemsSource = newKeyValuePairChart;
+                            newLineSeries.DependentValuePath = "Value";
+                            newLineSeries.IndependentValuePath = "Key";
+                            lineChart.Series.Clear();
+                            lineChart.Series.Add(newLineSeries);
                         }
 
-
-                        LineSeries newLineSeries = new LineSeries();
-                        newLineSeries.Title = lstStocks.SelectedItem.ToString();
-                        newLineSeries.ItemsSource = newKeyValuePairChart;
-                        newLineSeries.DependentValuePath = "Value";
-                        newLineSeries.IndependentValuePath = "Key";
-                        lineChart.Series.Clear();
-                        lineChart.Series.Add(newLineSeries);
-
-                    }
-                    else if (comboBoxExchange.SelectedItem.Equals("Forex"))
-                    {
-                        string getURLChart = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/FOREX/variation";
-                        var newSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-
-
-                        DateTime newFromDate = (DateTime)fromDate.SelectedDate;
-                        DateTime newToDate = (DateTime)toDate.SelectedDate;
-
-                        WebClient newWebClient = new WebClient();
-                        newWebClient.Proxy = null;
-
-                        string receivedStringChart = newWebClient.DownloadString(getURLChart + "/" +
-                            lstStocks.SelectedItem.ToString() + "/" + newFromDate.ToString("yyyyMMdd") + "/" + newToDate.ToString("yyyyMMdd"));
-
-
-                        List<Forex> newNasdaqList = newSerializer.Deserialize<List<Forex>>(receivedStringChart);
-                        List<KeyValuePair<int, decimal>> newKeyValuePairChart = new List<KeyValuePair<int, decimal>>();
-
-                        for (int i = 0; i < newNasdaqList.Count; i++)
+                        else
                         {
-                            newKeyValuePairChart.Add(new KeyValuePair<int, decimal>(newNasdaqList[i].exchangeDate,
-                                newNasdaqList[i].closingPrice));
+                            string getURLChart = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/LIFFE/variation";
+                            var newSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+
+                            DateTime newFromDate = (DateTime)fromDate.SelectedDate;
+                            DateTime newToDate = (DateTime)toDate.SelectedDate;
+
+                            WebClient newWebClient = new WebClient();
+                            newWebClient.Proxy = null;
+
+                            string receivedStringChart = newWebClient.DownloadString(getURLChart + "/" +
+                                lstStocks.SelectedItem.ToString() + "/" + newFromDate.ToString("yyyyMMdd") + "/" + newToDate.ToString("yyyyMMdd"));
+
+
+                            List<Liffe> newNasdaqList = newSerializer.Deserialize<List<Liffe>>(receivedStringChart);
+                            List<KeyValuePair<int, decimal>> newKeyValuePairChart = new List<KeyValuePair<int, decimal>>();
+
+                            for (int i = 0; i < newNasdaqList.Count; i++)
+                            {
+                                newKeyValuePairChart.Add(new KeyValuePair<int, decimal>(newNasdaqList[i].exchangeDate,
+                                    newNasdaqList[i].closingPrice));
+                            }
+
+
+                            LineSeries newLineSeries = new LineSeries();
+                            newLineSeries.Title = lstStocks.SelectedItem.ToString();
+                            newLineSeries.ItemsSource = newKeyValuePairChart;
+                            newLineSeries.DependentValuePath = "Value";
+                            newLineSeries.IndependentValuePath = "Key";
+                            lineChart.Series.Clear();
+                            lineChart.Series.Add(newLineSeries);
+                            lineChart.Title = "Price Trend";
                         }
-
-
-                        LineSeries newLineSeries = new LineSeries();
-                        newLineSeries.Title = lstStocks.SelectedItem.ToString();
-                        newLineSeries.ItemsSource = newKeyValuePairChart;
-                        newLineSeries.DependentValuePath = "Value";
-                        newLineSeries.IndependentValuePath = "Key";
-                        lineChart.Series.Clear();
-                        lineChart.Series.Add(newLineSeries);
                     }
-
-                    else
-                    {
-                        string getURLChart = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/LIFFE/variation";
-                        var newSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-
-
-                        DateTime newFromDate = (DateTime)fromDate.SelectedDate;
-                        DateTime newToDate = (DateTime)toDate.SelectedDate;
-
-                        WebClient newWebClient = new WebClient();
-                        newWebClient.Proxy = null;
-
-                        string receivedStringChart = newWebClient.DownloadString(getURLChart + "/" +
-                            lstStocks.SelectedItem.ToString() + "/" + newFromDate.ToString("yyyyMMdd") + "/" + newToDate.ToString("yyyyMMdd"));
-
-
-                        List<Liffe> newNasdaqList = newSerializer.Deserialize<List<Liffe>>(receivedStringChart);
-                        List<KeyValuePair<int, decimal>> newKeyValuePairChart = new List<KeyValuePair<int, decimal>>();
-
-                        for (int i = 0; i < newNasdaqList.Count; i++)
-                        {
-                            newKeyValuePairChart.Add(new KeyValuePair<int, decimal>(newNasdaqList[i].exchangeDate,
-                                newNasdaqList[i].closingPrice));
-                        }
-
-
-                        LineSeries newLineSeries = new LineSeries();
-                        newLineSeries.Title = lstStocks.SelectedItem.ToString();
-                        newLineSeries.ItemsSource = newKeyValuePairChart;
-                        newLineSeries.DependentValuePath = "Value";
-                        newLineSeries.IndependentValuePath = "Key";
-                        lineChart.Series.Clear();
-                        lineChart.Series.Add(newLineSeries);
-                    }
-                }
                     catch
-                {
-                    MessageBox.Show("Server unavailable. Please check the connection.");
+                    {
+                        MessageBox.Show("Server unavailable. Please check the connection.");
+                    }
                 }
-            }
                 else
                 {
                     MessageBox.Show("To date is greater than from date. PLease select correct values. ");
@@ -429,48 +434,48 @@ namespace MarketDataAnalyser
             {
 
                 string getURL = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks";
-            var newSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-            WebClient newWebClient = new WebClient();
-            newWebClient.Proxy = null;
+                var newSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                WebClient newWebClient = new WebClient();
+                newWebClient.Proxy = null;
 
-            string receivedString = newWebClient.DownloadString(getURL + "/" +
-                   comboBoxCountry.SelectedItem + "/" + comboBoxSector.SelectedItem + "/" + comboBoxExchange.SelectedItem);
+                string receivedString = newWebClient.DownloadString(getURL + "/" +
+                       comboBoxCountry.SelectedItem + "/" + comboBoxSector.SelectedItem + "/" + comboBoxExchange.SelectedItem);
 
 
-            List<String> newStocksFilterList = newSerializer.Deserialize<List<String>>(receivedString);
+                List<String> newStocksFilterList = newSerializer.Deserialize<List<String>>(receivedString);
 
-            if (newStocksFilterList.Count != 0)
-            {
-               lstStocks.SelectedIndex = -1;
-
-                lstStocks.Items.Clear();
-                        
-                for (int i = 0; i < newStocksFilterList.Count; i++)
+                if (newStocksFilterList.Count != 0)
                 {
-                    lstStocks.Items.Add(newStocksFilterList[i]);
+                    lstStocks.SelectedIndex = -1;
+
+                    lstStocks.Items.Clear();
+
+                    for (int i = 0; i < newStocksFilterList.Count; i++)
+                    {
+                        lstStocks.Items.Add(newStocksFilterList[i]);
+                    }
+
+
+                }
+                else
+                {
+                    MessageBox.Show("No items.");
                 }
 
 
+                lblTickerValue.Content = "Value";
+                lblStockName.Content = "Stock";
+
+
+
+                // newStocksFilterList.Clear();
             }
-            else
-            {
-                MessageBox.Show("No items.");
-            }
-
-
-            lblTickerValue.Content = "Value";
-            lblStockName.Content = "Stock";
-
-
-
-            // newStocksFilterList.Clear();
-        }
             catch
             {
                 MessageBox.Show("Server unavailable. Please check the connection.");
             }
 
-}
+        }
 
         private void SetStartingFromDate(object sender, RoutedEventArgs e)
         {

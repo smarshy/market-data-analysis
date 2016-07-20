@@ -39,7 +39,7 @@
                 </StackPanel>
                 <StackPanel Height="40" Orientation="Horizontal" Margin="0,0,6,0">
                     <Label x:Name="label1_Copy4" Content="Volume" Height="34" Margin="0,9,0,-3" Width="96" FontWeight="SemiBold"/>
-                    <Label x:Name="lblVolumeFirst" Content="" Height="34" Margin="0,9,-54,9" Width="158" VerticalContentAlignment="Center"/>
+                    <Label x:Name="lblVolumeFirst" Content="" Height="34" Margin="0,3,-54,3" Width="158" VerticalContentAlignment="Center"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
@@ -63,7 +63,7 @@
                 </StackPanel>
                 <StackPanel Height="40" Orientation="Horizontal" Margin="0,0,6,0">
                     <Label x:Name="label1_Copy4_2" Content="Volume" Height="34" Margin="0,9,0,-3" Width="96" FontWeight="SemiBold"/>
-                    <Label x:Name="lblVolumeSecond" Content="" Height="34" Margin="0,9,-54,9" Width="158" VerticalContentAlignment="Center"/>
+                    <Label x:Name="lblVolumeSecond" Content="" Height="34" Margin="0,3,-54,3" Width="158" VerticalContentAlignment="Center"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
@@ -106,10 +106,12 @@
         <Polygon x:Name="greenArrowFirst" Visibility="Hidden" Points="10,0,50,0,30,-30" Stroke="#FF3E872C" Fill="#FF3E872C" Canvas.Left="475" Canvas.Top="207" />
         <Polygon x:Name="redArrowFirst" Visibility="Hidden" Points="10,0,50,0,30,30" Stroke="#FFC8140A" Fill="#FFC8140A" Canvas.Left="475" Canvas.Top="177" />
 
+        <Rectangle Fill="#FFF5F2FA" Height="45" Canvas.Left="736" Stroke="#FFF5F2FA" Canvas.Top="544" Width="572"/>
+
         <Label x:Name="lblStockNameSecond" Content="Stock 2" Height="54" Canvas.Left="361" Canvas.Top="418" Width="114" FontSize="28" FontWeight="Bold"/>
         <Polygon x:Name="greenArrowSecond" Visibility="Hidden" Points="10,0 50,0 30,-30" Stroke="#FF3E872C" Fill="#FF3E872C" Canvas.Left="497" Canvas.Top="453" />
         <Polygon x:Name="redArrowSecond" Visibility="Hidden" Points="10,0 50,0 30,30" Stroke="#FFC8140A" Fill="#FFC8140A" Canvas.Left="497" Canvas.Top="423" />
-        <Label x:Name="lblTickerValueFirst" Content="" Height="62" Canvas.Left="539" Canvas.Top="172" Width="95" FontSize="28" FontWeight="Bold"/>
-        <Label x:Name="lblTickerValueSecond" Content="" Height="54" Canvas.Left="559" Canvas.Top="418" Width="75" FontSize="28" FontWeight="Bold"/>
+        <Label x:Name="lblTickerValueFirst" Content="" Height="62" Canvas.Left="539" Canvas.Top="172" Width="137" FontSize="28" FontWeight="Bold"/>
+        <Label x:Name="lblTickerValueSecond" Content="" Height="54" Canvas.Left="559" Canvas.Top="418" Width="117" FontSize="28" FontWeight="Bold"/>
     </Canvas>
 </Window>

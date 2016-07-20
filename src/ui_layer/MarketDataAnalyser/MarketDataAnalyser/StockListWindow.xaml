@@ -12,8 +12,9 @@
         <Label x:Name="lblTitle" Content="Market Data Acrobat" Height="100" Canvas.Left="30" Width="836" FontSize="70" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Canvas.Top="48" FontWeight="Medium"/>
         <Image x:Name="imgLogoLogin" Height="160" Canvas.Left="980" Canvas.Top="10" Width="290" Source="C:\Users\Grad51\Downloads\Ayush_Goyal_VB\ui_layer\design\change1\logoFinal1.png"/>
 
+
         <ListBox x:Name="lstStocks" HorizontalAlignment="Left" Height="272" Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" Width="227" Grid.ColumnSpan="2" Canvas.Top="389" Loaded="ShowStockList" SelectionChanged="ChangeSelection" Canvas.Left="59"/>
-        <Label x:Name="lblStockName" Grid.ColumnSpan="2" Content="Stock" Grid.Column="1" HorizontalAlignment="Left" Height="48" Grid.RowSpan="2" VerticalAlignment="Top" Width="125" FontSize="35" Canvas.Left="361" Canvas.Top="182" FontWeight="Bold"/>
+        <Label x:Name="lblStockName" Grid.ColumnSpan="2" Content="Stock" Grid.Column="1" HorizontalAlignment="Left" Height="48" Grid.RowSpan="2" VerticalAlignment="Top" Width="130" FontSize="35" Canvas.Left="361" Canvas.Top="182" FontWeight="Bold"/>
         <chartingToolkit:Chart Name="lineChart"
                                         Canvas.Left="736" Canvas.Top="268" Width="587" Height="372" BorderBrush="{x:Null}">
 
@@ -80,5 +81,6 @@
         <Button x:Name="btnSignOut" Content="Sign out" Height="34" Canvas.Left="1223" Canvas.Top="640" Width="100" Click="ShowLoginWindow" Background="#FFE2E0E0" FontSize="16"/>
         <Button x:Name="btnFilter" Content="Filter" Height="35" Canvas.Left="118" Canvas.Top="304" Width="102" Background="#FFE2E0E0" FontSize="16" Click="FliterTheList"/>
         <Label x:Name="lblTickerValue" Content="Value" HorizontalAlignment="Left" Height="48" VerticalAlignment="Top" Width="143" FontSize="35" Canvas.Left="551" Canvas.Top="182" FontWeight="Bold"/>
+        <Rectangle Fill="#FFF5F2FA" Height="46" Canvas.Left="736" Stroke="#FFF5F2FA" Canvas.Top="580" Width="587"/>
     </Canvas>
 </Window>

@@ -64,6 +64,10 @@ namespace MarketDataAnalyser
         {
             if (dateFrom.SelectedDate != null && dateTo.SelectedDate != null)
             {
+                greenArrowFirst.Visibility = Visibility.Hidden;
+                redArrowFirst.Visibility = Visibility.Hidden;
+                greenArrowSecond.Visibility = Visibility.Hidden;
+                redArrowSecond.Visibility = Visibility.Hidden;
 
                 try {
                     string getURL = "http://10.87.205.72:8080/MarketDataAnalyserWeb/rest/stocks/compareStocks";
@@ -91,6 +95,7 @@ namespace MarketDataAnalyser
                     lblHighFirst.Content = newNasdaqFirst.high;
                     lblLowFirst.Content = newNasdaqFirst.low;
                     lblVolumeFirst.Content = newNasdaqFirst.volume;
+                    lblTickerValueFirst.Content = Math.Abs(newNasdaqFirst.upArrow);
 
                     if (Decimal.Compare(newNasdaqFirst.upArrow, 0) >= 0)
                     {
@@ -107,6 +112,7 @@ namespace MarketDataAnalyser
                     lblHighSecond.Content = newNasdaqSecond.high;
                     lblLowSecond.Content = newNasdaqSecond.low;
                     lblVolumeSecond.Content = newNasdaqSecond.volume;
+                    lblTickerValueSecond.Content = Math.Abs(newNasdaqSecond.upArrow);
 
                     if (Decimal.Compare(newNasdaqSecond.upArrow, 0) >= 0)
                     {
