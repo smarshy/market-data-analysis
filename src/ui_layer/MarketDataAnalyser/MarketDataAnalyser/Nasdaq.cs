@@ -11,7 +11,7 @@ using System.Net;
 namespace MarketDataAnalyser
 {
     [DataContract]
-    class Nasdaq
+    public class Nasdaq
     {
         //private BigDecimal closingPrice;
         //private int exchangeDate;
@@ -46,10 +46,16 @@ namespace MarketDataAnalyser
         public int volume { get; set; }
 
         [DataMember]
-        public bool upArrow { get; set; }
+        public decimal upArrow { get; set; }
 
         [DataMember]
         public Exchange exchange { get; set; }
+
+        [DataMember]
+        public String sector { get; set; }
+
+        [DataMember]
+        public String region { get; set; }
 
         //public Nasdaq(decimal newClosingPrice,int newExchangeDate,
         //    decimal newHigh,decimal newLow,decimal newOpeningPrice,String newTicker,int newVolume,bool newArrow,Exchange newExchange)
