@@ -3,8 +3,9 @@
 
 *Team Manager: Indranil Chandra*
 
-> 25/08/2016 - Day 0
-+Task Assigned
+###25/08/2016 - Day 0
+
+*Task Assigned:*
 
 ---*Vatsala*: Problem Identification and Architecture Design
 
