@@ -1,11 +1,12 @@
 #Team Name: tba
-*Team Leader: Vatsala Swaroop       
+*Team Leader: Vatsala Swaroop*       
 
-Team Manager: Indranil Chandra*
+*Team Manager: Indranil Chandra*
 
-#25/08/2016 - Day 0
+>> 25/08/2016 - Day 0
 
->> Task Assigned
+*Task Assigned*
+
 *Vatsala*: Problem Identification and Architecture Design
 *Indranil*: Problem Identification and Architecture Design
 *Ayush*: Problem Identification and Architecture Design
