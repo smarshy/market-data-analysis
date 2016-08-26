@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="MarketDataAnalyser">
+        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+        <dependent-module archiveName="MarketDataAnalyserEJB.jar" deploy-path="/" handle="module:/resource/MarketDataAnalyserEJB/MarketDataAnalyserEJB">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="MarketDataAnalyserEJBClient.jar" deploy-path="/" handle="module:/resource/MarketDataAnalyserEJBClient/MarketDataAnalyserEJBClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="MarketAnalyserJPA.jar" deploy-path="/lib" handle="module:/resource/MarketAnalyserJPA/MarketAnalyserJPA">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="MarketDataAnalyserAppClient.jar" deploy-path="/" handle="module:/resource/MarketDataAnalyserAppClient/MarketDataAnalyserAppClient">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="MarketDataAnalyserWeb.war" deploy-path="/" handle="module:/resource/MarketDataAnalyserWeb/MarketDataAnalyserWeb">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>
