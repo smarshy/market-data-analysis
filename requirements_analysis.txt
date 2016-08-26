@@ -1,0 +1,7 @@
+The end product would be containing the following features - 
+
+* Ability to list  all stocks with their tickers and indicators if the market price has increased/decreased
+* Ability to view details of a particular stock (eg.variation in stock price etc.) over a period of time
+* Ability to compare two stocks
+
+Additional : Filtering the list as per additional criteria (market segment, geography, exchanges etc.)
