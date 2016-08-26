@@ -28,12 +28,12 @@ public class UserResource {
 	@GET
 	@Produces("text/plain")
 	public String printMessage(){
-		return bean.sendMessage();
+		return bean.getMessage();
 	}
 	
 	@PUT 
 	@Consumes("text/plain")
-	public void postText(@PathParam("userName") String userName){
-		System.out.println("UserResource received a PUT request");
+	public void putText(@PathParam("userName") String userName){
+		return bean.putMessage();
 	}
 }
