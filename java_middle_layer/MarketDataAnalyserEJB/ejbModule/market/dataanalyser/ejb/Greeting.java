@@ -10,8 +10,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import market.dataanalyser.jpa.Testtable;
-
 
 /**
  * Session Bean implementation class Greeting
@@ -38,14 +36,14 @@ public class Greeting implements GreetingRemote, GreetingLocal {
 	public void compose_message(String userName) {
 		// TODO Auto-generated method stub
 		
-		String sql = "SELECT t.var2 FROM Testtable as t WHERE t.id=2";
+		String sql = "SELECT t.ticker FROM Nasdaq as t WHERE t.indexkey=2";
         System.out.println(sql);
         Query query = em.createQuery(sql);
         
         System.out.println("hi");
         
         String dbString = (String) query.getSingleResult();
-		message="Hello"+ userName + "\n"+ dbString;
+		message="Hello "+ userName + "\n"+ dbString;
 		System.out.println(message);
        
 	}
