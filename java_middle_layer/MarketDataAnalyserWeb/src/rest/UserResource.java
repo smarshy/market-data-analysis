@@ -9,17 +9,17 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 
-import market.dataanalyser.ejb.GreetingLocal;
+import market.dataanalyser.ejb.MarketDataAnalyserBeanLocal;
 
 @Path("/users")
 public class UserResource {
 	
-	private GreetingLocal bean;
+	private MarketDataAnalyserBeanLocal bean;
 	
 	public UserResource(){
 		try{
 		InitialContext context = new InitialContext();
-		bean = (GreetingLocal) context.lookup("java:app/MarketDataAnalyserEJB/Greeting!market.dataanalyser.ejb.GreetingLocal");
+		bean = (MarketDataAnalyserBeanLocal) context.lookup("java:app/MarketDataAnalyserEJB/MarketDataAnalyserBean!market.dataanalyser.ejb.MarketDataAnalyserBeanLocal");
 		}catch(NamingException ex){
 			
 		}

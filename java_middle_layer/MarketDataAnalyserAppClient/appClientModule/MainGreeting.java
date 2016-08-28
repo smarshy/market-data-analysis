@@ -3,7 +3,7 @@ import java.util.Properties;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
-import market.dataanalyser.ejb.GreetingRemote;
+import market.dataanalyser.ejb.MarketDataAnalyserBeanRemote;
 
 
 public class MainGreeting {
@@ -26,14 +26,14 @@ try {
 			// Formulate the full JNDI name for the Diary session bean.
 			String appName     = "MarketDataAnalyser";
 			String moduleName  = "MarketDataAnalyserEJB";
-			String beanName    = "Greeting";
+			String beanName    = "MarketDataAnalyserBean";
 			String packageName = "market.dataanalyser.ejb";
-			String className   = "GreetingRemote";
+			String className   = "MarketDataAnalyserBeanRemote";
 			
 			// Lookup the bean using the full JNDI name.
 			String fullJndiName = String.format("%s/%s/%s!%s.%s", appName, moduleName, beanName, packageName, className);
 			System.out.println(fullJndiName);
-			GreetingRemote bean = (GreetingRemote) context.lookup(fullJndiName);
+			MarketDataAnalyserBeanRemote bean = (MarketDataAnalyserBeanRemote) context.lookup(fullJndiName);
 
 			bean.compose_message("wait");
 			
