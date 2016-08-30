@@ -56,11 +56,11 @@ public class MarketDataAnalyserBean implements MarketDataAnalyserBeanRemote, Mar
 //	}
 	@Override
     public Nasdaq fetchStockDetails(String tickerName){
-    	TypedQuery <Nasdaq> query=em.createQuery("SELECT s from Nasdaq as s where s.ticker=:tickername and exchangeDate=12032005",Nasdaq.class);//CHECK THE DATE FORMAT
+    	TypedQuery <Nasdaq> query=em.createQuery("SELECT s from Nasdaq as s where s.ticker=:tickername and exchangeDate=:exchangedate",Nasdaq.class);//CHECK THE DATE FORMAT
     	query.setParameter("tickername",tickerName);
-    	
+    	query.setParameter("exchangedate",20110103);
 		//CHECK EXCHANGE DATE
-		Nasdaq NasdaqData=(Nasdaq) query.getResultList();
+		Nasdaq NasdaqData= query.getSingleResult();
 		return NasdaqData;
     }
 	
@@ -106,6 +106,18 @@ public class MarketDataAnalyserBean implements MarketDataAnalyserBeanRemote, Mar
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+//	@Override
+//	public void compose_message(String userName) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public String get_message() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 	
 	
 //	public compare(){

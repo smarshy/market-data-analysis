@@ -18,7 +18,7 @@ public class MarketDataAnalyserBeanTest {
 		//fail("Not yet implemented");
 		MarketDataAnalyserBean bean=new MarketDataAnalyserBean();
 		List<String> all=bean.listAllStocks();///create an object  and then call this method
-		Assert.assertEquals(1776473, all.size());//hardcode the cardinality of the list
+		Assert.assertEquals(65263, all.size());//hardcode the cardinality of the list
 	}
 	/*@Test
 	public void testParticularStock() {
