@@ -3,7 +3,10 @@ package market.dataanalyser.ejb;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 import javax.ejb.LocalBean;
@@ -64,37 +67,48 @@ public class MarketDataAnalyserBean implements MarketDataAnalyserBeanRemote, Mar
 		return NasdaqData;
     }
 	
-    @Override
-	public List<BigDecimal> fetchStockVariation(String ticker, int fromDate, int toDate,String frequency){
+	
+	@Override
+	public List<Nasdaq> fetchStockVariation(String ticker, int fromDate, int toDate){
 		
+    	
 //    	if(fromDate > toDate){
 //    		//THROW ERROR
 //    	}
-//    	
-//    	switch(frequency){
-//    	case "monthly":
-//    		
-//    		
-//    		break;
-////    	case "yearly":
-////    		
-////    		break;
-//    	case "daily":
-//    	default:
-//    		Query query=em.createQuery("SELECT s.closingPrice from Nasdaq as s where s.ticker=:tickername and s.exchangeDate BETWEEN :fromdate AND :todate");//CHECK THE DATE FORMAT
-//        	query.setParameter("tickername",ticker);
-//        	query.setParameter("fromdate", fromDate);
-//        	query.setParameter("todate", toDate);
-//    		
-//    	}
-//    	
     	
-		//QUERY TO DB
-		//List<BigDecimal> StockVariationClosing=query.getResultList();
-//		return StockVariationClosing;
-		return null;
+		TypedQuery<Nasdaq> query=em.createQuery("SELECT s from Nasdaq as s where s.ticker=:tickername and s.exchangeDate BETWEEN :fromdate AND :todate",Nasdaq.class);//CHECK THE DATE FORMAT
+    	query.setParameter("tickername",ticker);
+    	query.setParameter("fromdate", fromDate);
+    	query.setParameter("todate", toDate);
+        	
+		List<Nasdaq> listOfNasdaq=query.getResultList();
+		for(Nasdaq stock: listOfNasdaq){
+			System.out.println(stock.getClosingPrice());
+		}
+		
+		return listOfNasdaq;
 	}
 
+    public boolean IsArrowUp(String ticker){
+    	System.out.println("Inside isArrow");
+    	Query query=em.createQuery("SELECT s.closingPrice from Nasdaq as s where s.ticker=:tickername order by s.exchangeDate DESC");
+    	query.setParameter("tickername",ticker);
+    	query.setMaxResults(2);
+    	System.out.println("query executed");
+    	@SuppressWarnings("unchecked")
+		List<BigDecimal> list=query.getResultList();
+    	System.out.println("result retrieved");
+    	 int result=list.get(0).compareTo(list.get(1));
+    	 if(result == 1){
+    		 return false;
+    	 }
+    	 else
+    		 return true;
+    }
+    
+//    public CompareStocks compareTwoStocks(String ticker1,String ticker2,int fromDate, int toDate){
+//    	
+//    }
 	@Override
 	public void compose_message(String userName) {
 		// TODO Auto-generated method stub
