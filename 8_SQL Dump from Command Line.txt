@@ -1,9 +1,0 @@
-Step 1: Change the current directory to the directory containing MySQL Server's binaries
-
->>	cd "C:\Program Files\MySQL\MySQL Server 5.6\bin"
-
-
-Step 2: Use mysqldump command -> mysqldump -u [user_name] -p [database_name] > [Destination Folder+FileName]
-	Enter the password for connecting to MYSQL Server after executing the command
-
->>	mysqldump -u root -p exchangemarketbeta > "C:\Users\Grad_43\Downloads\Market Data Analysis\MySQL Dump Files\exchangemarket.sql"
