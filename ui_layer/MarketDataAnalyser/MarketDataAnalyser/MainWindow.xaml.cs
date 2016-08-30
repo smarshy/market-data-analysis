@@ -14,6 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Net;
 
 namespace MarketDataAnalyser
 {
@@ -26,6 +29,9 @@ namespace MarketDataAnalyser
         {
             InitializeComponent();
         }
+
+        public List<String> allStocks = new List<String>();
+        DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<String>));
 
         private void ShowStockListWindow(object sender, RoutedEventArgs e)
         {
@@ -49,5 +55,6 @@ namespace MarketDataAnalyser
             
             
         }
+
     }
 }

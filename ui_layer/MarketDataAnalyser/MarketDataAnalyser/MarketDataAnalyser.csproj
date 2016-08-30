@@ -37,6 +37,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Controls.Input.Toolkit">
       <HintPath>..\..\..\System.Windows.Controls.Input.Toolkit\System.Windows.Controls.Input.Toolkit.dll</HintPath>
@@ -60,6 +64,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Nasdaq.cs" />
     <Compile Include="SpecificStockWindow.xaml.cs">
       <DependentUpon>SpecificStockWindow.xaml</DependentUpon>
     </Compile>

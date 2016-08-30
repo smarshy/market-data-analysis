@@ -10,7 +10,7 @@
         <Label x:Name="lblStockName" Content="StockName" Height="60" Canvas.Left="21" Canvas.Top="19" Width="163" FontSize="30"/>
         <ListBox x:Name="listBox" Height="144" Canvas.Left="202" Canvas.Top="10" Width="205"/>
         <Rectangle Fill="#FFF4F4F5" Height="190" Canvas.Left="10" Stroke="Black" Canvas.Top="202" Width="397"/>
-        <ComboBox x:Name="comboBoxSortChart" Height="28" Canvas.Left="302" Canvas.Top="169" Width="96" Loaded="ShowChartSortOptions"/>
+        <ComboBox x:Name="comboBoxSortChart" Height="28" Canvas.Left="302" Canvas.Top="169" Width="96" Loaded="ShowChartSortOptions" SelectedIndex="0"/>
         <Label x:Name="label" Content="From" Height="28" Canvas.Left="21" Canvas.Top="137" Width="57"/>
         <DatePicker Height="28" Canvas.Left="83" Canvas.Top="137" Width="101"/>
         <Label x:Name="label_Copy" Content="To" Height="28" Canvas.Left="21" Canvas.Top="169" Width="57"/>
