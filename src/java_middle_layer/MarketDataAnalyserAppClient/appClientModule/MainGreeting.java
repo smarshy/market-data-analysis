@@ -35,7 +35,10 @@ try {
 			System.out.println(fullJndiName);
 			MarketDataAnalyserBeanRemote bean = (MarketDataAnalyserBeanRemote) context.lookup(fullJndiName);
 
-			bean.compose_message("wait");
+			//bean.compose_message("wait");
+			bean.listAllStocks();
+			//System.out.println("step 2");
+			//bean.fetchStockDetails("AAME");
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
