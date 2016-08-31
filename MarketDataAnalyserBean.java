@@ -2,6 +2,7 @@ package market.dataanalyser.ejb;
 
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import javax.persistence.TypedQuery;
 import market.dataanalyser.jpa.Nasdaq;
 import market.dataanalyser.jpa.VolumePriceTrend;
 import market.dataanalyser.jpa.CompareStocks;
+import market.dataanalyser.jpa.MovAvgTrend;
 
 /**
  * Session Bean implementation class MarketDataAnalyzerBean
@@ -183,39 +185,67 @@ public class MarketDataAnalyserBean implements MarketDataAnalyserBeanRemote, Mar
         	
     	}
     	VolumePriceTrend firstvpt=new VolumePriceTrend();
-    	firstvpt.setVpt(volumeList.get(0));
+    	firstvpt.setVpt(new BigDecimal(volumeList.get(0)));
     	firstvpt.setDate(dateList.get(0));
     	vptList.add(firstvpt);
     	
     	for(int i=1;i<list.size();i++){
     		VolumePriceTrend vptNew=new VolumePriceTrend();
     		BigDecimal d1=new BigDecimal(volumeList.get(i));
+    		BigDecimal d2=vptList.get(i-1).getVpt();
     		
-    		
-    		vptNew.setVpt(vptList.+(d1.multiply((closingPriceList.get(i).subtract(closingPriceList.get(i-1))).divide(closingPriceList.get(i-1))));
-    		//vptList.add(i, );
+    		vptNew.setVpt(d2.add(d1.multiply(closingPriceList.get(i).subtract(closingPriceList.get(i-1)).divide((closingPriceList.get(i-1)),2,RoundingMode.HALF_UP))));
+    		vptNew.setDate(dateList.get(i));
+    		vptList.add(i, vptNew);
     	}
     	
-    	
-    	
-    	
-    	
-    	for()
-    	
-    	
-    	
-    	
-
-    	
-    	
-    	
-    	
-		return null;
+		return vptList;
     	
     }
 
     
-	
+	//
+public List<MovAvgTrend> calculateMovAvgTrend(String ticker){
+    	
+    	Query query=em.createQuery("SELECT DISTINCT s from Nasdaq as s where s.ticker=:tickername ");
+    	query.setParameter("tickername",ticker);
+    	@SuppressWarnings("unchecked")
+		List<Nasdaq> list=query.getResultList();
+    	List<BigDecimal> closingPriceList=new ArrayList<BigDecimal>();
+    	List<Integer> dateList=new ArrayList<Integer>();
+    	List<MovAvgTrend> maList=new ArrayList<MovAvgTrend>();
+    	for(Nasdaq n: list){
+        	closingPriceList.add(n.getClosingPrice());
+        	dateList.add(n.getExchangeDate());
+        	
+    	}
+    	MovAvgTrend firstMA=new MovAvgTrend();
+    	firstMA.setMa(closingPriceList.get(0));
+    	firstMA.setDate(dateList.get(0));
+    	MovAvgTrend secondMA=new MovAvgTrend();
+    	secondMA.setMa(closingPriceList.get(1));
+    	secondMA.setDate(dateList.get(1));
+    	
+    	maList.add(firstMA);
+    	maList.add(secondMA);
+    	
+    	for(int i=2;i<list.size();i++){
+    		MovAvgTrend maNew=new MovAvgTrend();
+    		
+    		BigDecimal d1=maList.get(i-2).getMa();
+    		
+    		
+    		BigDecimal d2=maList.get(i-1).getMa();
+    		BigDecimal d3=closingPriceList.get(i);
+    		maNew.setMa((d1.add(d2).add(d3)).divide(new BigDecimal(3),2,RoundingMode.HALF_UP));
+    		//vptNew.setVpt(d2.add(d1.multiply(closingPriceList.get(i).subtract(closingPriceList.get(i-1)).divide((closingPriceList.get(i-1)),2,RoundingMode.HALF_UP))));
+    		maNew.setDate(dateList.get(i));
+    		maList.add(i, maNew);
+    	}
+    	
+		return maList;
+    	
+    }      
 
 	
 	

@@ -61,6 +61,7 @@ import javax.ws.rs.QueryParam;
 
 import market.dataanalyser.ejb.MarketDataAnalyserBean;
 import market.dataanalyser.ejb.MarketDataAnalyserBeanLocal;
+import market.dataanalyser.jpa.CompareStocks;
 import market.dataanalyser.jpa.Nasdaq;
 
 
@@ -89,6 +90,7 @@ public StocksResource() {
      }
 }
 
+
 @GET
 @Produces("application/json")
 public List<String> listAllStocks() {
@@ -100,6 +102,33 @@ public List<String> listAllStocks() {
  @Path("/query")
 public Nasdaq fetchStockDetails(@QueryParam("ticker") String tickerName) {
 return bean.fetchStockDetails(tickerName);
+ }
+ 
+ @GET
+ @Produces("application/json")
+ @Path("/{ticker}/{fromDate}/{toDate}")
+ public List<Nasdaq> fetchStockVariation(@PathParam("ticker") String ticker,
+ @PathParam("fromDate") String fromDate, @PathParam("toDate") String toDate) {
+     int beginDate = Integer.parseInt(fromDate);
+     int completeDate = Integer.parseInt(toDate);
+
+     return bean.fetchStockVariation(ticker, beginDate, completeDate);
+ }
+
+ @GET
+ @Produces("application/json")
+ @Path("/{ticker1}/{ticker2}/{fromDate}/{toDate}")
+ public CompareStocks compareTwoStocks(
+         @PathParam("ticker1") String ticker1,
+         @PathParam("ticker2") String ticker2,
+         @PathParam("fromDate") String beginDate,
+         @PathParam("toDate") String completeDate
+         ) {
+
+     int startDate = Integer.parseInt(beginDate);
+     int finalDate = Integer.parseInt(completeDate);
+
+     return bean.compareTwoStocks(ticker1,ticker2,startDate, finalDate);
  }
  /*
 private Date getDateFromString(String dateString) {
