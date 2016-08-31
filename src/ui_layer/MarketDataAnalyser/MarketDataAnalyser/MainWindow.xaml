@@ -2,16 +2,74 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:chartingToolkit=
+        "clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarketDataAnalyser"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" >
-    <Canvas>
-        <Label x:Name="lblTitle" Content="Market Data Analyser" Height="81" Canvas.Left="10" Canvas.Top="10" Width="497" FontSize="50" HorizontalContentAlignment="Center"/>
-        <Button x:Name="btnStocksList" Content="List of all stocks" Height="39" Canvas.Left="170" Canvas.Top="173" Width="196" Click="ShowStockListWindow"/>
-        <Button x:Name="btnSpecificStock" Content="Search stocks" Height="31" Canvas.Left="318" Canvas.Top="111" Width="158" Click="ShowSpecificStockWindow"/>
-        <Button x:Name="btnStocksCompare" Content="Comapre stocks" Height="37" Canvas.Left="170" Canvas.Top="230" Width="196" Click="ShowCompareStockWindow"/>
-        <TextBox x:Name="textBox" Height="31" Canvas.Left="80" TextWrapping="Wrap" Text="TextBox" Canvas.Top="111" Width="233"/>
+        Title="MainWindow" Height="725" Width="1370" Loaded="PopulateList" WindowState="Maximized" >
+    <Canvas Background="#FFF5F2FA">
+        <Label x:Name="titleMain" Content="Market Data Analyser" Height="106" Canvas.Left="30" Width="836" FontSize="70" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Canvas.Top="48" FontWeight="Medium"/>
+        <Button x:Name="btnStocksList" Content="List of all stocks" Height="37" Canvas.Left="84" Canvas.Top="365" Width="196" Click="ShowStockListWindow" Background="#FFE2E0E0" FontSize="16"/>
+        <Button x:Name="btnSpecificStock" Content="Search stocks" Height="31" Canvas.Left="193" Canvas.Top="210" Width="113" Click="ShowSpecificStockWindow" Background="#FFE2E0E0" FontSize="16"/>
+        <Button x:Name="btnStocksCompare" Content="Comapre stocks" Height="37" Canvas.Left="84" Canvas.Top="448" Width="196" Click="ShowCompareStockWindow" Background="#FFE2E0E0" FontSize="16"/>
+        <TextBox x:Name="txtSearch" Height="31" Canvas.Left="36" TextWrapping="Wrap" Canvas.Top="210" Width="152"/>
 
+        <Button x:Name="btnSignOut" Content="Sign out" Height="34" Canvas.Left="1223" Canvas.Top="640" Width="100" Click="ShowLoginWindow" Background="#FFE2E0E0" FontSize="16"/>
+
+        <Label x:Name="lblStockName" Grid.ColumnSpan="2" Content="StockName" Grid.Column="1" HorizontalAlignment="Left" Height="48" Grid.RowSpan="2" VerticalAlignment="Top" Width="198" FontSize="35" Canvas.Left="348" Canvas.Top="198" FontWeight="Bold"/>
+
+        <Separator Height="45" Canvas.Left="110" Margin="0" Canvas.Top="414" Width="458" RenderTransformOrigin="0.5,0.5">
+            <Separator.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-90.048"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Separator.RenderTransform>
+        </Separator>
+        <Image x:Name="imgLogoMain" Height="160" Canvas.Left="980" Canvas.Top="10" Width="290" Source="C:\Users\Grad51\Downloads\Ayush_Goyal_VB\ui_layer\design\change1\logoFinal1.png"/>
+        <Separator Height="45" Canvas.Left="478" Margin="0" Canvas.Top="414" Width="458" RenderTransformOrigin="0.5,0.5">
+            <Separator.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-90.048"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Separator.RenderTransform>
+        </Separator>
+        <GroupBox x:Name="groupBox" Header="" Height="301" Canvas.Left="347" Canvas.Top="251" Width="333">
+            <StackPanel x:Name="stackPanelStockDetails" Margin="0,10,1,8">
+                <StackPanel Height="52" Orientation="Horizontal" Margin="0,0,6,0">
+                    <Label x:Name="label1_Copy" Content="Opening Price" Height="34" Margin="0,9" Width="116" FontSize="16" FontWeight="SemiBold"/>
+                    <Label x:Name="lblOpeningPrice" Content="" Height="34" Margin="0,9,-54,9" Width="156"/>
+                </StackPanel>
+                <StackPanel Height="52" Orientation="Horizontal" Margin="0,0,6,0">
+                    <Label x:Name="label1_Copy1" Content="Closing Price" Height="34" Margin="0,9" Width="116" FontSize="16" FontWeight="SemiBold"/>
+                    <Label x:Name="lblClosingPrice" Content="" Height="34" Margin="0,9,-54,9" Width="152"/>
+                </StackPanel>
+                <StackPanel Height="52" Orientation="Horizontal" Margin="0,0,6,0">
+                    <Label x:Name="label1_Copy2" Content="High" Height="34" Margin="0,9" Width="116" FontSize="16" FontWeight="SemiBold"/>
+                    <Label x:Name="lblHigh" Content="" Height="34" Margin="0,9,-54,9" Width="158"/>
+                </StackPanel>
+                <StackPanel Height="52" Orientation="Horizontal" Margin="0,0,6,0">
+                    <Label x:Name="label1_Copy3" Content="Low" Height="34" Margin="0,9" Width="116" FontSize="16" FontWeight="SemiBold"/>
+                    <Label x:Name="lblLow" Content="" Height="34" Margin="0,9,-54,9" Width="158"/>
+                </StackPanel>
+                <StackPanel Height="52" Orientation="Horizontal" Margin="0,0,6,0">
+                    <Label x:Name="label1_Copy4" Content="Volume" Height="34" Margin="0,9" Width="116" FontSize="16" FontWeight="SemiBold"/>
+                    <Label x:Name="lblVolume" Content="" Height="34" Margin="0,9,-54,9" Width="158"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <chartingToolkit:Chart Name="lineChart"
+                                        Canvas.Left="740" Canvas.Top="243" Width="582" Height="409" BorderBrush="{x:Null}">
+
+
+        </chartingToolkit:Chart>
+        <Button x:Name="btnMovingAvg" Content="Moving average" Height="38" Canvas.Left="758" Canvas.Top="210" Width="178" FontSize="16" Background="#FFE2E0E0"/>
     </Canvas>
 </Window>
