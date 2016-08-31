@@ -1,7 +1,11 @@
 package market.dataanalyser.jpa;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.math.BigDecimal;
 
 
@@ -25,10 +29,12 @@ public class Nasdaq implements Serializable {
 	private BigDecimal openingPrice;
 	private String ticker;
 	private int volume;
-
+	@Transient
+	private boolean upArrow; 
 	//bi-directional many-to-one association to Exchange
 	@ManyToOne
 	@JoinColumn(name="market_ID")
+	@JsonManagedReference
 	private Exchange exchange;
 
 	public Nasdaq() {
@@ -106,4 +112,10 @@ public class Nasdaq implements Serializable {
 		this.exchange = exchange;
 	}
 
+	public void setUpArrow(boolean upArrow) {
+		this.upArrow = upArrow;
+	}
+	public boolean isUpArrow() {
+		return upArrow;
+	}
 }

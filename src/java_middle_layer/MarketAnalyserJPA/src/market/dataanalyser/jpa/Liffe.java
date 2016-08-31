@@ -2,6 +2,9 @@ package market.dataanalyser.jpa;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.math.BigDecimal;
 
 
@@ -28,6 +31,7 @@ public class Liffe implements Serializable {
 
 	//bi-directional many-to-one association to Exchange
 	@ManyToOne
+	@JsonManagedReference
 	@JoinColumn(name="market_ID")
 	private Exchange exchange;
 

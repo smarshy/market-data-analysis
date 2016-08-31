@@ -1,9 +1,14 @@
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import market.dataanalyser.ejb.MarketDataAnalyserBeanRemote;
+import market.dataanalyser.jpa.Nasdaq;
 
 
 public class MainGreeting {
@@ -35,11 +40,17 @@ try {
 			System.out.println(fullJndiName);
 			MarketDataAnalyserBeanRemote bean = (MarketDataAnalyserBeanRemote) context.lookup(fullJndiName);
 
-			//bean.compose_message("wait");
-			bean.listAllStocks();
-			//System.out.println("step 2");
-			//bean.fetchStockDetails("AAME");
+			List<String> stockList=bean.listAllStocks();
 			
+//			for(String elem: stockList){
+//				System.out.println(elem);
+//			}
+			System.out.println("no. of elements: "+stockList.size());
+			Nasdaq data=(Nasdaq)bean.fetchStockDetails("AACC");
+			System.out.println(data.toString());
+			
+			bean.fetchStockVariation("AACC", 20110103, 20110113);
+			//bean.IsArrowUp("AACC");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			System.out.println("Exception: " + ex.getMessage());

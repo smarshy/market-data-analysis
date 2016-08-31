@@ -13,7 +13,7 @@ public class RestApplication extends Application {
 	private Set<Class<?>> empty = new HashSet<Class<?>>();
 	
 	public RestApplication(){
-	     singletons.add(new StockList());
+	     singletons.add(new StocksResource());
 	}
 	
 	@Override

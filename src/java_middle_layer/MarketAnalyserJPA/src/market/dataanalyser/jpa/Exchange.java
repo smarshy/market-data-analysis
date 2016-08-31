@@ -2,6 +2,9 @@ package market.dataanalyser.jpa;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.List;
 
 
@@ -19,17 +22,20 @@ public class Exchange implements Serializable {
 	private int marketID;
 	
 	private String marketName;
-
+	
 	//bi-directional many-to-one association to Forex
 	@OneToMany(mappedBy="exchange")
+	@JsonBackReference
 	private List<Forex> forexs;
 
 	//bi-directional many-to-one association to Liffe
 	@OneToMany(mappedBy="exchange")
+	@JsonBackReference
 	private List<Liffe> liffes;
 
 	//bi-directional many-to-one association to Nasdaq
 	@OneToMany(mappedBy="exchange")
+	@JsonBackReference
 	private List<Nasdaq> nasdaqs;
 
 	public Exchange() {
@@ -50,7 +56,7 @@ public class Exchange implements Serializable {
 	public void setMarketName(String marketName) {
 		this.marketName = marketName;
 	}
-
+	
 	public List<Forex> getForexs() {
 		return this.forexs;
 	}
@@ -58,6 +64,7 @@ public class Exchange implements Serializable {
 	public void setForexs(List<Forex> forexs) {
 		this.forexs = forexs;
 	}
+	
 
 	public Forex addForex(Forex forex) {
 		getForexs().add(forex);

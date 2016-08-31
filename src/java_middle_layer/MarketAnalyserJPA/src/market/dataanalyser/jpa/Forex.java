@@ -2,6 +2,9 @@ package market.dataanalyser.jpa;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.math.BigDecimal;
 
 
@@ -29,6 +32,7 @@ public class Forex implements Serializable {
 	//bi-directional many-to-one association to Exchange
 	@ManyToOne
 	@JoinColumn(name="market_ID")
+	@JsonManagedReference
 	private Exchange exchange;
 
 	public Forex() {
