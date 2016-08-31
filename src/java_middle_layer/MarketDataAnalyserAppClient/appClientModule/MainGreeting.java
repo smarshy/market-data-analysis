@@ -8,7 +8,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import market.dataanalyser.ejb.MarketDataAnalyserBeanRemote;
+import market.dataanalyser.jpa.MovAvgTrend;
 import market.dataanalyser.jpa.Nasdaq;
+import market.dataanalyser.jpa.VolumePriceTrend;
 
 
 public class MainGreeting {
@@ -40,17 +42,44 @@ try {
 			System.out.println(fullJndiName);
 			MarketDataAnalyserBeanRemote bean = (MarketDataAnalyserBeanRemote) context.lookup(fullJndiName);
 
-			List<String> stockList=bean.listAllStocks();
+			//<String> stockList=bean.listAllStocks();
 			
 //			for(String elem: stockList){
 //				System.out.println(elem);
 //			}
-			System.out.println("no. of elements: "+stockList.size());
-			Nasdaq data=(Nasdaq)bean.fetchStockDetails("AACC");
-			System.out.println(data.toString());
+			//System.out.println("no. of elements: "+stockList.size());
+			//Nasdaq data=(Nasdaq)bean.fetchStockDetails("AACC");
+			//System.out.println(data.toString());
 			
-			bean.fetchStockVariation("AACC", 20110103, 20110113);
+			//bean.fetchStockVariation("AACC", 20110103, 20110113);
 			//bean.IsArrowUp("AACC");
+			//bean.compareTwoStocks("AACC","AAME",20110103, 20110113);
+			
+			/*List<String> stockList1=bean.listAllStocksByFilter("","EMEA","Nasdaq");
+			
+			for(String elem1: stockList1){
+				System.out.println(elem1);
+			}
+
+			System.out.println("no. of elements: "+stockList1.size());
+			*/
+			
+			
+			
+			List<VolumePriceTrend> v= bean.calculateVolumePriceTrend("AACC");
+			for(VolumePriceTrend bd : v){
+
+				System.out.println(bd.getVpt());
+			}
+			
+			List<MovAvgTrend> m= bean.calculateMovAvgTrend("AACC");
+			for(MovAvgTrend bd : m){
+
+				System.out.println(bd.getMa());
+			}
+			
+			
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			System.out.println("Exception: " + ex.getMessage());
