@@ -2,6 +2,7 @@ package market.dataanalyser.ejb;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,6 +19,8 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import market.dataanalyser.jpa.Nasdaq;
+import market.dataanalyser.jpa.VolumePriceTrend;
+import market.dataanalyser.jpa.CompareStocks;
 
 /**
  * Session Bean implementation class MarketDataAnalyzerBean
@@ -43,20 +46,46 @@ public class MarketDataAnalyserBean implements MarketDataAnalyserBeanRemote, Mar
 	@Override
 	public List<String> listAllStocks(){
 		
-		Query query=em.createQuery("SELECT s.ticker from Nasdaq as s");
+		Query query=em.createQuery("SELECT DISTINCT s.ticker from Nasdaq as s");
 		@SuppressWarnings("unchecked")
 		List<String> NasdaqList=query.getResultList();
 		return NasdaqList;
 	}
-//	public List<String> listAllStocksBySegment(String filterSegment){
-//	  TypedQuery <Nasdaq> query=em.createQuery("SELECT s.ticker from Nasdaq as s where s.Segment=:filtersegment ",Nasdaq.class);
-//	  query.setParameter("filtersegment",filterSegment);//complete this statement  
-//	}
+	public List<String> listAllStocksByFilter(String filterSegment,String filterRegion,String exchangeMarket){
+		Query query = null;
+		if(filterSegment=="" && filterRegion==""){
+			query=em.createQuery("SELECT DISTINCT s.ticker from :exchangemarket as s");
+		  	query.setParameter("exchangemarket",exchangeMarket);
+
+		}
+		else if(filterSegment==""){
+			query=em.createQuery("SELECT DISTINCT s.ticker from :exchangemarket as s where s.region=:filterregion ");
+		  	query.setParameter("filterregion",filterRegion);
+		  	query.setParameter("exchangemarket",exchangeMarket);
+		}
+		else if(filterRegion==""){
+			query=em.createQuery("SELECT DISTINCT s.ticker from :exchangemarket as s where s.sector=:filtersegment ");
+		  	query.setParameter("filtersegment",filterSegment);
+		  	query.setParameter("exchangemarket",exchangeMarket);
+		}
+		else{
+			query=em.createQuery("SELECT DISTINCT s.ticker from :exchangemarket as s where s.sector=:filtersegment and s.region:=filterregion");
+		  	query.setParameter("filtersegment",filterSegment);
+		  	query.setParameter("exchangemarket",exchangeMarket);
+		}
+	  	//complete this statement 
+	  	@SuppressWarnings("unchecked")
+		List<String> NasdaqList=query.getResultList();
+		return NasdaqList;
+	}
 	
-//	public List<String> listAllStocksByRegion(String filterRegion){
-//	  TypedQuery <Nasdaq> query=em.createQuery("SELECT s.ticker from Nasdaq as s where s.Region=:filterregion ",Nasdaq.class);
-//	  query.setParameter("filterregion",filterRegion);//complete this statement
-//	}
+	/*public List<String> listAllStocksByRegion(String filterRegion){
+	  Query query=em.createQuery("SELECT s.ticker from Nasdaq as s where s.region=:filterregion ");
+	  query.setParameter("filterregion",filterRegion);//complete this statement
+	  @SuppressWarnings("unchecked")
+	List<String> NasdaqList=query.getResultList();
+		return NasdaqList;
+	}*/
 	@Override
     public Nasdaq fetchStockDetails(String tickerName){
     	TypedQuery <Nasdaq> query=em.createQuery("SELECT s from Nasdaq as s where s.ticker=:tickername and exchangeDate=:exchangedate",Nasdaq.class);//CHECK THE DATE FORMAT
@@ -64,6 +93,7 @@ public class MarketDataAnalyserBean implements MarketDataAnalyserBeanRemote, Mar
     	query.setParameter("exchangedate",20110103);
 		//CHECK EXCHANGE DATE
 		Nasdaq NasdaqData= query.getSingleResult();
+		NasdaqData.setUpArrow(isArrowUp(tickerName));
 		return NasdaqData;
     }
 	
@@ -82,14 +112,16 @@ public class MarketDataAnalyserBean implements MarketDataAnalyserBeanRemote, Mar
     	query.setParameter("todate", toDate);
         	
 		List<Nasdaq> listOfNasdaq=query.getResultList();
-		for(Nasdaq stock: listOfNasdaq){
-			System.out.println(stock.getClosingPrice());
-		}
+//		for(Nasdaq stock: listOfNasdaq){
+//			System.out.print(stock.getClosingPrice());
+//			System.out.println(stock.isUpArrow());
+//
+//		}
 		
 		return listOfNasdaq;
 	}
 
-    public boolean IsArrowUp(String ticker){
+    public boolean isArrowUp(String ticker){
     	System.out.println("Inside isArrow");
     	Query query=em.createQuery("SELECT s.closingPrice from Nasdaq as s where s.ticker=:tickername order by s.exchangeDate DESC");
     	query.setParameter("tickername",ticker);
@@ -106,42 +138,87 @@ public class MarketDataAnalyserBean implements MarketDataAnalyserBeanRemote, Mar
     		 return true;
     }
     
-//    public CompareStocks compareTwoStocks(String ticker1,String ticker2,int fromDate, int toDate){
-//    	
-//    }
+    public CompareStocks compareTwoStocks(String ticker1,String ticker2,int fromDate, int toDate){
+		
+    	CompareStocks compareStocks=new CompareStocks();
+    	compareStocks.setStock1(fetchStockDetails(ticker1));
+    	compareStocks.setStock2(fetchStockDetails(ticker2));
+    	compareStocks.setListStock1(fetchStockVariation(ticker1, fromDate, toDate));
+    	compareStocks.setListStock2(fetchStockVariation(ticker2, fromDate, toDate));
+    	return compareStocks;
+    	
+    }
 	@Override
 	public void compose_message(String userName) {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public String get_message() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public List<String> listAllStocksByRegion(String filterRegion) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
+    
+    
+    public List<VolumePriceTrend> calculateVolumePriceTrend(String ticker){
+    	
+    	Query query=em.createQuery("SELECT DISTINCT s from Nasdaq as s where s.ticker=:tickername ");
+    	query.setParameter("tickername",ticker);
+    	@SuppressWarnings("unchecked")
+		List<Nasdaq> list=query.getResultList();
+    	List<Integer> volumeList=new ArrayList<Integer>();
+    	List<BigDecimal> closingPriceList=new ArrayList<BigDecimal>();
+    	List<Integer> dateList=new ArrayList<Integer>();
+    	List<VolumePriceTrend> vptList=new ArrayList<VolumePriceTrend>();
+    	for(Nasdaq n: list){
+        	volumeList.add(n.getVolume());
+        	closingPriceList.add(n.getClosingPrice());
+        	dateList.add(n.getExchangeDate());
+        	
+    	}
+    	VolumePriceTrend firstvpt=new VolumePriceTrend();
+    	firstvpt.setVpt(volumeList.get(0));
+    	firstvpt.setDate(dateList.get(0));
+    	vptList.add(firstvpt);
+    	
+    	for(int i=1;i<list.size();i++){
+    		VolumePriceTrend vptNew=new VolumePriceTrend();
+    		BigDecimal d1=new BigDecimal(volumeList.get(i));
+    		
+    		
+    		vptNew.setVpt(vptList.+(d1.multiply((closingPriceList.get(i).subtract(closingPriceList.get(i-1))).divide(closingPriceList.get(i-1))));
+    		//vptList.add(i, );
+    	}
+    	
+    	
+    	
+    	
+    	
+    	for()
+    	
+    	
+    	
+    	
 
-//	@Override
-//	public void compose_message(String userName) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public String get_message() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+    	
+    	
+    	
+    	
+		return null;
+    	
+    }
+
+    
+	
+
 	
 	
-//	public compare(){
-//		//REST API WILL HAVE TO IMPLEMENT WILL THIS
-//	}
-    
-    
-    
-    
-    
-    
+       
 
 }
