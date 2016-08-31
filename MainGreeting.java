@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,10 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import market.dataanalyser.ejb.MarketDataAnalyserBeanRemote;
+import market.dataanalyser.jpa.CompareStocks;
+import market.dataanalyser.jpa.MovAvgTrend;
 import market.dataanalyser.jpa.Nasdaq;
+import market.dataanalyser.jpa.VolumePriceTrend;
 
 
 public class MainGreeting {
@@ -40,17 +44,31 @@ try {
 			System.out.println(fullJndiName);
 			MarketDataAnalyserBeanRemote bean = (MarketDataAnalyserBeanRemote) context.lookup(fullJndiName);
 
-			List<String> stockList=bean.listAllStocks();
+			//List<String> stockList=bean.listAllStocksByFilter("","EMEA","Nasdaq");
 			
 //			for(String elem: stockList){
 //				System.out.println(elem);
 //			}
-			System.out.println("no. of elements: "+stockList.size());
-			Nasdaq data=(Nasdaq)bean.fetchStockDetails("AACC");
-			System.out.println(data.toString());
+			//System.out.println("no. of elements: "+stockList.size());
+//			Nasdaq data=(Nasdaq)bean.fetchStockDetails("AACC");
+//			System.out.println(data.toString());
 			
-//			bean.fetchStockVariation("AACC", 20110103, 20110113);
-			bean.isArrowUp("AACC");
+			//bean.fetchStockVariation("AACC", 20110103, 20110113);
+			//CompareStocks c=bean.compareTwoStocks("AACC", "AAME", 20110103, 20110113);
+			
+			//System.out.println(c);
+			
+			List<VolumePriceTrend> v= bean.calculateVolumePriceTrend("AACC");
+			for(VolumePriceTrend bd : v){
+
+				System.out.println(bd.getVpt());
+			}
+			List<MovAvgTrend> m= bean.calculateMovAvgTrend("AACC");
+			for(MovAvgTrend bd : m){
+
+				System.out.println(bd.getMa());
+			}
+			//bean.isArrowUp("AACC");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			System.out.println("Exception: " + ex.getMessage());
