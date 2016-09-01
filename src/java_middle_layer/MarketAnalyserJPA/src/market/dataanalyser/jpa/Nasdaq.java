@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.math.BigDecimal;
 
-
 /**
  * The persistent class for the nasdaq database table.
  * 
@@ -29,8 +28,9 @@ public class Nasdaq implements Serializable {
 	private BigDecimal openingPrice;
 	private String ticker;
 	private int volume;
-	@Transient
-	private boolean upArrow; 
+	private String sector;
+	private String region;
+	private BigDecimal upArrow; 
 	//bi-directional many-to-one association to Exchange
 	@ManyToOne
 	@JoinColumn(name="market_ID")
@@ -112,10 +112,31 @@ public class Nasdaq implements Serializable {
 		this.exchange = exchange;
 	}
 
-	public void setUpArrow(boolean upArrow) {
+	public void setUpArrow(BigDecimal upArrow) {
 		this.upArrow = upArrow;
 	}
-	public boolean isUpArrow() {
+	public BigDecimal getUpArrow() {
 		return upArrow;
 	}
+	public BigDecimal isUpArrow() {
+		return upArrow;
+	}
+
+	public String getSector() {
+		return sector;
+	}
+
+	public void setSector(String sector) {
+		this.sector = sector;
+	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
+	}
+	
+	
 }

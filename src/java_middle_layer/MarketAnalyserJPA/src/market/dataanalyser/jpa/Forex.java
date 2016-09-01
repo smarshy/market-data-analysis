@@ -28,12 +28,16 @@ public class Forex implements Serializable {
 	private BigDecimal openingPrice;
 	private String ticker;
 	private int volume;
+	private String sector;
+	private String region;
 
 	//bi-directional many-to-one association to Exchange
 	@ManyToOne
 	@JoinColumn(name="market_ID")
 	@JsonManagedReference
 	private Exchange exchange;
+
+	private BigDecimal upArrow;
 
 	public Forex() {
 	}
@@ -108,6 +112,32 @@ public class Forex implements Serializable {
 
 	public void setExchange(Exchange exchange) {
 		this.exchange = exchange;
+	}
+
+	public String getSector() {
+		return sector;
+	}
+
+	public void setSector(String sector) {
+		this.sector = sector;
+	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
+	}
+	
+	public void setUpArrow(BigDecimal bigDecimal) {
+		this.upArrow = bigDecimal;
+	}
+	public BigDecimal isUpArrow() {
+		return upArrow;
+	}
+	public BigDecimal getUpArrow() {
+		return upArrow;
 	}
 
 }
