@@ -20,9 +20,12 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import market.dataanalyser.jpa.Nasdaq;
+import market.dataanalyser.jpa.StockMarkets;
 import market.dataanalyser.jpa.VolumePriceTrend;
 import market.dataanalyser.jpa.CompareStocks;
-import market.dataanalyser.jpa.MovAvgTrend;
+import market.dataanalyser.jpa.Forex;
+import market.dataanalyser.jpa.Liffe;
+import market.dataanalyser.jpa.MovingAverageTrend;
 
 /**
  * Session Bean implementation class MarketDataAnalyzerBean
@@ -33,47 +36,74 @@ import market.dataanalyser.jpa.MovAvgTrend;
 @LocalBean
 public class MarketDataAnalyserBean implements MarketDataAnalyserBeanRemote, MarketDataAnalyserBeanLocal {
 
-  //TO BE INCLUDED IN REST APPLICATION  
-//	List<String> NasdaqList;
-//	String thisNasdaq;
-//	Date fromDate;
-//	Date toDate;
-//	List<Nasdaq_Details> NasdaqData;  // GET CONTEXT FROM ENTITY BEAN
-	
-	
-	@PersistenceContext(name="MarketAnalyserJPA")           //ADD PERSISTENCE CONTEXT
+ 	
+	@PersistenceContext(name="MarketAnalyserJPA")          
 	EntityManager em;
 	String simpleText;
-	
-	@Override
-	public List<String> listAllStocks(){
-		
+	/*
+	/Method to return a list of all stock tickers across all Stock exchanges.
+	*/
+	public StockMarkets listAllStocks(){
 		Query query=em.createQuery("SELECT DISTINCT s.ticker from Nasdaq as s");
 		@SuppressWarnings("unchecked")
-		List<String> NasdaqList=query.getResultList();
-		return NasdaqList;
+		List<String> nasdaqStockList=query.getResultList();
+		
+		Query query2=em.createQuery("SELECT DISTINCT s.ticker from Liffe as s");
+		@SuppressWarnings("unchecked")
+		List<String> liffeStockList=query2.getResultList();
+		
+		Query query3=em.createQuery("SELECT DISTINCT s.ticker from Forex as s");
+		@SuppressWarnings("unchecked")
+		List<String> forexStockList=query3.getResultList();
+		
+		 //create an instance of the class StockMarkets
+		StockMarkets stocksList=new StockMarkets();
+		//setting the fields of the instance stocksList
+		stocksList.setNasdaqStockList(nasdaqStockList);
+		stocksList.setLiffeStockList(liffeStockList);
+		stocksList.setForexStockList(forexStockList);
+//		stocksList.setDefaultStock(fetchStockDetails("AAPL"));
+		
+		return stocksList;
+		
+		
 	}
+	
+	
+	
+	
+	
+//	@Override
+//	public List<String> listAllStocks(){
+//		
+//		Query query=em.createQuery("SELECT DISTINCT s.ticker from Nasdaq as s");
+//		@SuppressWarnings("unchecked")
+//		List<String> NasdaqList=query.getResultList();
+//		return NasdaqList;
+//	}
+	
 	public List<String> listAllStocksByFilter(String filterSegment,String filterRegion,String exchangeMarket){
 		Query query = null;
-		if(filterSegment=="" && filterRegion==""){
-			query=em.createQuery("SELECT DISTINCT s.ticker from :exchangemarket as s");
-		  	query.setParameter("exchangemarket",exchangeMarket);
+		if(filterSegment.equals("allSectors") && filterRegion.equals("allRegions")){
+			query=em.createQuery("SELECT DISTINCT s.ticker from " + exchangeMarket + " as s");
+//		  	query.setParameter("exchangemarket",exchangeMarket);
 
 		}
-		else if(filterSegment==""){
-			query=em.createQuery("SELECT DISTINCT s.ticker from :exchangemarket as s where s.region=:filterregion ");
+		else if(filterSegment.equals("allSectors")){
+			query=em.createQuery("SELECT DISTINCT s.ticker from " + exchangeMarket + " as s where s.region=:filterregion");
 		  	query.setParameter("filterregion",filterRegion);
-		  	query.setParameter("exchangemarket",exchangeMarket);
+//		  	query.setParameter("exchangemarket",exchangeMarket);
 		}
-		else if(filterRegion==""){
-			query=em.createQuery("SELECT DISTINCT s.ticker from :exchangemarket as s where s.sector=:filtersegment ");
+		else if(filterRegion.equals("allRegions")){
+			query=em.createQuery("SELECT DISTINCT s.ticker from " + exchangeMarket + " as s where s.sector=:filtersegment");
 		  	query.setParameter("filtersegment",filterSegment);
-		  	query.setParameter("exchangemarket",exchangeMarket);
+//		  	query.setParameter("exchangemarket",exchangeMarket);
 		}
 		else{
-			query=em.createQuery("SELECT DISTINCT s.ticker from :exchangemarket as s where s.sector=:filtersegment and s.region:=filterregion");
+			query=em.createQuery("SELECT DISTINCT s.ticker from " + exchangeMarket + " as s where s.sector=:filtersegment and s.region=:filterregion");
 		  	query.setParameter("filtersegment",filterSegment);
-		  	query.setParameter("exchangemarket",exchangeMarket);
+		  	query.setParameter("filterregion",filterRegion);
+//		  	query.setParameter("exchangemarket",exchangeMarket);
 		}
 	  	//complete this statement 
 	  	@SuppressWarnings("unchecked")
@@ -89,29 +119,47 @@ public class MarketDataAnalyserBean implements MarketDataAnalyserBeanRemote, Mar
 		return NasdaqList;
 	}*/
 	@Override
-    public Nasdaq fetchStockDetails(String tickerName){
-    	TypedQuery <Nasdaq> query=em.createQuery("SELECT s from Nasdaq as s where s.ticker=:tickername and exchangeDate=:exchangedate",Nasdaq.class);//CHECK THE DATE FORMAT
+    public Nasdaq fetchNasdaqDetails(String tickerName){
+    	//TypedQuery <Nasdaq> query=em.createQuery("SELECT s from Nasdaq as s where s.ticker=:tickername and exchangeDate=:exchangedate",Nasdaq.class);//CHECK THE DATE FORMAT
+    	TypedQuery<Nasdaq> query=em.createQuery("SELECT s from Nasdaq as s where s.ticker=:tickername Order by s.exchangeDate DESC ",Nasdaq.class);
     	query.setParameter("tickername",tickerName);
-    	query.setParameter("exchangedate",20110103);
+    	query.setMaxResults(1);
+    	//query.setParameter("exchangedate",20110103);
 		//CHECK EXCHANGE DATE
 		Nasdaq NasdaqData= query.getSingleResult();
 		NasdaqData.setUpArrow(isArrowUp(tickerName));
 		return NasdaqData;
     }
 	
+	@Override
+    public Liffe fetchLiffeDetails(String tickerName){
+    	//TypedQuery <Nasdaq> query=em.createQuery("SELECT s from Nasdaq as s where s.ticker=:tickername and exchangeDate=:exchangedate",Nasdaq.class);//CHECK THE DATE FORMAT
+    	TypedQuery<Liffe> query=em.createQuery("SELECT s from Liffe as s where s.ticker=:tickername Order by s.exchangeDate DESC ",Liffe.class);
+    	query.setParameter("tickername",tickerName);
+    	query.setMaxResults(1);
+    	//query.setParameter("exchangedate",20110103);
+		//CHECK EXCHANGE DATE
+		Liffe liffeData= query.getSingleResult();
+		liffeData.setUpArrow(isArrowUp(tickerName));
+		return liffeData;
+    }
 	
 	@Override
-	public List<Nasdaq> fetchStockVariation(String ticker, int fromDate, int toDate){
-		
-    	
-//    	if(fromDate > toDate){
-//    		//THROW ERROR
-//    	}
-    	
-		TypedQuery<Nasdaq> query=em.createQuery("SELECT s from Nasdaq as s where s.ticker=:tickername and s.exchangeDate BETWEEN :fromdate AND :todate",Nasdaq.class);//CHECK THE DATE FORMAT
+    public Forex fetchForexDetails(String tickerName){
+    	//TypedQuery <Nasdaq> query=em.createQuery("SELECT s from Nasdaq as s where s.ticker=:tickername and exchangeDate=:exchangedate",Nasdaq.class);//CHECK THE DATE FORMAT
+    	TypedQuery<Forex> query=em.createQuery("SELECT s from Forex as s where s.ticker=:tickername Order by s.exchangeDate DESC ",Forex.class);
+    	query.setParameter("tickername",tickerName);
+    	query.setMaxResults(1);
+    	//query.setParameter("exchangedate",20110103);
+		//CHECK EXCHANGE DATE
+		Forex forexData= query.getSingleResult();
+		forexData.setUpArrow(isArrowUp(tickerName));
+		return forexData;
+    }
+	
+	public List<Nasdaq> fetchNasdaqVariation(String ticker){
+		TypedQuery<Nasdaq> query=em.createQuery("SELECT s from Nasdaq as s where s.ticker=:tickername ",Nasdaq.class);//CHECK THE DATE FORMAT
     	query.setParameter("tickername",ticker);
-    	query.setParameter("fromdate", fromDate);
-    	query.setParameter("todate", toDate);
         	
 		List<Nasdaq> listOfNasdaq=query.getResultList();
 //		for(Nasdaq stock: listOfNasdaq){
@@ -122,8 +170,90 @@ public class MarketDataAnalyserBean implements MarketDataAnalyserBeanRemote, Mar
 		
 		return listOfNasdaq;
 	}
+	
+	public List<Liffe> fetchLiffeVariation(String ticker){
+		TypedQuery<Liffe> query=em.createQuery("SELECT s from Liffe as s where s.ticker=:tickername ",Liffe.class);//CHECK THE DATE FORMAT
+    	query.setParameter("tickername",ticker);
+        	
+		List<Liffe> listOfLiffe=query.getResultList();
+//		for(Nasdaq stock: listOfNasdaq){
+//			System.out.print(stock.getClosingPrice());
+//			System.out.println(stock.isUpArrow());
+//
+//		}
+		
+		return listOfLiffe;
+	}
+	
+	public List<Forex> fetchForexVariation(String ticker){
+		TypedQuery<Forex> query=em.createQuery("SELECT s from Forex as s where s.ticker=:tickername ",Forex.class);//CHECK THE DATE FORMAT
+    	query.setParameter("tickername",ticker);
+        	
+		List<Forex> listOfForex=query.getResultList();
+		
+		return listOfForex;
+	}
+	
+	
+	@Override
+	//////////////stock needs to be changed to nasdaq
+	public List<Nasdaq> fetchStockVariation(String ticker, int fromDate, int toDate){
+		
+    	
+//    	if(fromDate > toDate){
+//    		//THROW ERROR
+//    	}
+		
+		
+		TypedQuery<Nasdaq> query=em.createQuery("SELECT s from Nasdaq as s where s.ticker=:tickername and s.exchangeDate BETWEEN :fromdate AND :todate",Nasdaq.class);//CHECK THE DATE FORMAT
+    	query.setParameter("tickername",ticker);
+    	query.setParameter("fromdate", fromDate);
+    	query.setParameter("todate", toDate);
+        	
+		List<Nasdaq> listOfNasdaq=query.getResultList();
+		
+		return listOfNasdaq;
+	}
+	
+	@Override
+	public List<Liffe> fetchLiffeVariation(String ticker, int fromDate, int toDate){
+		
+    	
+//    	if(fromDate > toDate){
+//    		//THROW ERROR
+//    	}
+		
+		
+		TypedQuery<Liffe> query=em.createQuery("SELECT s from Liffe as s where s.ticker=:tickername and s.exchangeDate BETWEEN :fromdate AND :todate",Liffe.class);//CHECK THE DATE FORMAT
+    	query.setParameter("tickername",ticker);
+    	query.setParameter("fromdate", fromDate);
+    	query.setParameter("todate", toDate);
+        	
+		List<Liffe> listOfLiffe=query.getResultList();
+		
+		return listOfLiffe;
+	}
 
-    public boolean isArrowUp(String ticker){
+	@Override
+	public List<Forex> fetchForexVariation(String ticker, int fromDate, int toDate){
+		
+    	
+//    	if(fromDate > toDate){
+//    		//THROW ERROR
+//    	}
+		
+		
+		TypedQuery<Forex> query=em.createQuery("SELECT s from Forex as s where s.ticker=:tickername and s.exchangeDate BETWEEN :fromdate AND :todate",Forex.class);//CHECK THE DATE FORMAT
+    	query.setParameter("tickername",ticker);
+    	query.setParameter("fromdate", fromDate);
+    	query.setParameter("todate", toDate);
+        	
+		List<Forex> listOfForex=query.getResultList();
+		
+		return listOfForex;
+	}
+	
+    public BigDecimal isArrowUp(String ticker){
     	System.out.println("Inside isArrow");
     	Query query=em.createQuery("SELECT s.closingPrice from Nasdaq as s where s.ticker=:tickername order by s.exchangeDate DESC");
     	query.setParameter("tickername",ticker);
@@ -132,24 +262,52 @@ public class MarketDataAnalyserBean implements MarketDataAnalyserBeanRemote, Mar
     	@SuppressWarnings("unchecked")
 		List<BigDecimal> list=query.getResultList();
     	System.out.println("result retrieved");
-    	 int result=list.get(0).compareTo(list.get(1));
-    	 if(result == 1){
-    		 return false;
-    	 }
-    	 else
-    		 return true;
+    	BigDecimal result=((list.get(0).subtract(list.get(1))).divide(list.get(1),RoundingMode.HALF_UP)).multiply(new BigDecimal(100));
+    	return result;
     }
-    
-    public CompareStocks compareTwoStocks(String ticker1,String ticker2,int fromDate, int toDate){
+   /* 
+    public CompareStocks compareTwoStocks(String ticker1,String ticker2,int fromDate, int toDate,String market1,String market2){
 		
     	CompareStocks compareStocks=new CompareStocks();
-    	compareStocks.setStock1(fetchStockDetails(ticker1));
-    	compareStocks.setStock2(fetchStockDetails(ticker2));
-    	compareStocks.setListStock1(fetchStockVariation(ticker1, fromDate, toDate));
-    	compareStocks.setListStock2(fetchStockVariation(ticker2, fromDate, toDate));
+    	if(market1=="Liffe"&& market2=="Liffe"){
+    		compareStocks.setStock1(fetchLiffeDetails(ticker1));
+        	compareStocks.setStock2(fetchLiffeDetails(ticker2));
+        	compareStocks.setListStock1(fetchLiffeVariation(ticker1, fromDate, toDate));
+        	compareStocks.setListStock2(fetchLiffeVariation(ticker2, fromDate, toDate));
+    	}
+    	else if((market1=="Liffe"&& market2=="Forex") || (market1=="Forex"&& market2=="Liffe")){
+    		compareStocks.setStock1(fetchLiffeDetails(ticker1));
+        	compareStocks.setStock3(fetchForexDetails(ticker2));
+        	compareStocks.setListStock1(fetchLiffeVariation(ticker1, fromDate, toDate));
+        	compareStocks.setListStock3(fetchForexVariation(ticker2, fromDate, toDate));
+    	}
+    	else if(market1=="Forex"&& market2=="Forex"){
+    		compareStocks.setStock3(fetchForexDetails(ticker1));
+        	compareStocks.setStock4(fetchForexDetails(ticker2));
+        	compareStocks.setListStock3(fetchForexVariation(ticker1, fromDate, toDate));
+        	compareStocks.setListStock4(fetchForexVariation(ticker2, fromDate, toDate));
+    	}
     	return compareStocks;
     	
+    }*/
+    
+    
+    public CompareStocks compareTwoStocks(String ticker1,String ticker2,int fromDate, int toDate){
+    	
+    	
+    	CompareStocks compareStocks=new CompareStocks();
+    	compareStocks.setStock1(fetchNasdaqDetails(ticker1));
+    	compareStocks.setStock2(fetchNasdaqDetails(ticker2));
+    	compareStocks.setStockList1(fetchStockVariation(ticker1, fromDate, toDate));
+    	compareStocks.setStockList2(fetchStockVariation(ticker2, fromDate, toDate));
+    	
+    	
+    	
+    	return null;
+    	
     }
+    
+    ////should be deleted
 	@Override
 	public void compose_message(String userName) {
 		// TODO Auto-generated method stub
@@ -205,7 +363,7 @@ public class MarketDataAnalyserBean implements MarketDataAnalyserBeanRemote, Mar
 
     
 	//
-public List<MovAvgTrend> calculateMovAvgTrend(String ticker){
+public List<MovingAverageTrend> calculateMovingAverageTrend(String ticker){
     	
     	Query query=em.createQuery("SELECT DISTINCT s from Nasdaq as s where s.ticker=:tickername ");
     	query.setParameter("tickername",ticker);
@@ -213,16 +371,16 @@ public List<MovAvgTrend> calculateMovAvgTrend(String ticker){
 		List<Nasdaq> list=query.getResultList();
     	List<BigDecimal> closingPriceList=new ArrayList<BigDecimal>();
     	List<Integer> dateList=new ArrayList<Integer>();
-    	List<MovAvgTrend> maList=new ArrayList<MovAvgTrend>();
+    	List<MovingAverageTrend> maList=new ArrayList<MovingAverageTrend>();
     	for(Nasdaq n: list){
         	closingPriceList.add(n.getClosingPrice());
         	dateList.add(n.getExchangeDate());
         	
     	}
-    	MovAvgTrend firstMA=new MovAvgTrend();
+    	MovingAverageTrend firstMA=new MovingAverageTrend();
     	firstMA.setMa(closingPriceList.get(0));
     	firstMA.setDate(dateList.get(0));
-    	MovAvgTrend secondMA=new MovAvgTrend();
+    	MovingAverageTrend secondMA=new MovingAverageTrend();
     	secondMA.setMa(closingPriceList.get(1));
     	secondMA.setDate(dateList.get(1));
     	
@@ -230,11 +388,9 @@ public List<MovAvgTrend> calculateMovAvgTrend(String ticker){
     	maList.add(secondMA);
     	
     	for(int i=2;i<list.size();i++){
-    		MovAvgTrend maNew=new MovAvgTrend();
+    		MovingAverageTrend maNew=new MovingAverageTrend();
     		
     		BigDecimal d1=maList.get(i-2).getMa();
-    		
-    		
     		BigDecimal d2=maList.get(i-1).getMa();
     		BigDecimal d3=closingPriceList.get(i);
     		maNew.setMa((d1.add(d2).add(d3)).divide(new BigDecimal(3),2,RoundingMode.HALF_UP));
@@ -245,10 +401,7 @@ public List<MovAvgTrend> calculateMovAvgTrend(String ticker){
     	
 		return maList;
     	
-    }      
+    }
 
-	
-	
-       
 
 }
