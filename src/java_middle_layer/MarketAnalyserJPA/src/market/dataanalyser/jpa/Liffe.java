@@ -28,12 +28,15 @@ public class Liffe implements Serializable {
 	private BigDecimal openingPrice;
 	private String ticker;
 	private int volume;
+	private String sector;
+	private String region;
 
 	//bi-directional many-to-one association to Exchange
 	@ManyToOne
 	@JsonManagedReference
 	@JoinColumn(name="market_ID")
 	private Exchange exchange;
+	private BigDecimal upArrow;
 
 	public Liffe() {
 	}
@@ -108,6 +111,29 @@ public class Liffe implements Serializable {
 
 	public void setExchange(Exchange exchange) {
 		this.exchange = exchange;
+	}
+
+	public String getSector() {
+		return sector;
+	}
+
+	public void setSector(String sector) {
+		this.sector = sector;
+	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
+	}
+
+	public void setUpArrow(BigDecimal bigDecimal) {
+		this.upArrow = bigDecimal;
+	}
+	public BigDecimal getUpArrow() {
+		return upArrow;
 	}
 
 }
