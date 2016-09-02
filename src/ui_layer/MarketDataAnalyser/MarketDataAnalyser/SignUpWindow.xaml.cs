@@ -26,6 +26,7 @@ namespace MarketDataAnalyser
 
         private void ShowMainWindow(object sender, RoutedEventArgs e)
         {
+           
             MainWindow newMainWindow = new MainWindow();
             newMainWindow.Show();
             this.Close();

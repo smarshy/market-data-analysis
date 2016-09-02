@@ -7,23 +7,23 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Net;
+using System.Windows.Controls.DataVisualization.Charting;
 
 namespace MarketDataAnalyser
 {
     [DataContract]
-    public class CompareStocks
+    public class StockMarkets
     {
         [DataMember]
-        public Nasdaq stock1 { get; set; }
+        public List<String> nasdaqStockList { get; set; }
 
         [DataMember]
-        public Nasdaq stock2 { get; set; }
+        public List<String> liffeStockList { get; set; }
 
         [DataMember]
-        public List<Nasdaq> listStock1 { get; set; }
+        public List<String> forexStockList { get; set; }
 
         [DataMember]
-        public List<Nasdaq> listStock2 { get; set; }
-
+        public Nasdaq defaultStock { get; set; }
     }
 }

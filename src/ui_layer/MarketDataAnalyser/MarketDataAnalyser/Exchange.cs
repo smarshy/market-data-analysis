@@ -11,7 +11,7 @@ using System.Net;
 namespace MarketDataAnalyser
 {
     [DataContract]
-    class Exchange
+    public class Exchange
     {
         [DataMember]
         public int marketID { get; set; }

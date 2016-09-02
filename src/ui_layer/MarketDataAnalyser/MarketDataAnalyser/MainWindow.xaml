@@ -8,17 +8,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarketDataAnalyser"
         mc:Ignorable="d"
-        Title="MainWindow" Height="725" Width="1370" Loaded="PopulateList" WindowState="Maximized" >
+        Title="MainWindow" Height="725" Width="1370"  WindowState="Maximized" Loaded="ShowDefaultStock" Icon="C:\Users\Grad51\Downloads\Ayush_Goyal_VB\ui_layer\design\logoBig2.png" >
     <Canvas Background="#FFF5F2FA">
-        <Label x:Name="titleMain" Content="Market Data Analyser" Height="106" Canvas.Left="30" Width="836" FontSize="70" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Canvas.Top="48" FontWeight="Medium"/>
+        <Label x:Name="titleMain" Content="Market Data Acrobat" Height="106" Canvas.Left="30" Width="836" FontSize="70" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Canvas.Top="48" FontWeight="Medium"/>
         <Button x:Name="btnStocksList" Content="List of all stocks" Height="37" Canvas.Left="84" Canvas.Top="365" Width="196" Click="ShowStockListWindow" Background="#FFE2E0E0" FontSize="16"/>
         <Button x:Name="btnSpecificStock" Content="Search stocks" Height="31" Canvas.Left="193" Canvas.Top="210" Width="113" Click="ShowSpecificStockWindow" Background="#FFE2E0E0" FontSize="16"/>
-        <Button x:Name="btnStocksCompare" Content="Comapre stocks" Height="37" Canvas.Left="84" Canvas.Top="448" Width="196" Click="ShowCompareStockWindow" Background="#FFE2E0E0" FontSize="16"/>
-        <TextBox x:Name="txtSearch" Height="31" Canvas.Left="36" TextWrapping="Wrap" Canvas.Top="210" Width="152"/>
+        <Button x:Name="btnStocksCompare" Content="Compare stocks" Height="37" Canvas.Left="84" Canvas.Top="448" Width="196" Click="ShowCompareStockWindow" Background="#FFE2E0E0" FontSize="16"/>
+        <TextBox x:Name="txtSearch" Height="31" Canvas.Left="36" TextWrapping="Wrap" Canvas.Top="210" Width="152" VerticalContentAlignment="Center"/>
+
+        <Polygon x:Name="greenArrow" Visibility="Hidden" Points="10,0,50,0,30,-30" Stroke="#FF3E872C" Fill="#FF3E872C" Canvas.Left="459" Canvas.Top="241" />
+        <Polygon x:Name="redArrow" Visibility="Hidden" Points="10,0,50,0,30,30" Stroke="#FFC8140A" Fill="#FFC8140A" Canvas.Left="459" Canvas.Top="211" />
 
         <Button x:Name="btnSignOut" Content="Sign out" Height="34" Canvas.Left="1223" Canvas.Top="640" Width="100" Click="ShowLoginWindow" Background="#FFE2E0E0" FontSize="16"/>
 
-        <Label x:Name="lblStockName" Grid.ColumnSpan="2" Content="StockName" Grid.Column="1" HorizontalAlignment="Left" Height="48" Grid.RowSpan="2" VerticalAlignment="Top" Width="198" FontSize="35" Canvas.Left="348" Canvas.Top="198" FontWeight="Bold"/>
+        <Label x:Name="lblStockName" Grid.ColumnSpan="2" Content="Stock" Grid.Column="1" HorizontalAlignment="Left" Height="48" Grid.RowSpan="2" VerticalAlignment="Top" Width="112" FontSize="35" Canvas.Left="347" Canvas.Top="198" FontWeight="Bold"/>
 
         <Separator Height="45" Canvas.Left="110" Margin="0" Canvas.Top="414" Width="458" RenderTransformOrigin="0.5,0.5">
             <Separator.RenderTransform>
@@ -45,23 +48,23 @@
             <StackPanel x:Name="stackPanelStockDetails" Margin="0,10,1,8">
                 <StackPanel Height="52" Orientation="Horizontal" Margin="0,0,6,0">
                     <Label x:Name="label1_Copy" Content="Opening Price" Height="34" Margin="0,9" Width="116" FontSize="16" FontWeight="SemiBold"/>
-                    <Label x:Name="lblOpeningPrice" Content="" Height="34" Margin="0,9,-54,9" Width="156"/>
+                    <Label x:Name="lblOpeningPrice" Content="" Height="34" Margin="0,9,-54,9" Width="156" VerticalContentAlignment="Center" FontSize="16"/>
                 </StackPanel>
                 <StackPanel Height="52" Orientation="Horizontal" Margin="0,0,6,0">
                     <Label x:Name="label1_Copy1" Content="Closing Price" Height="34" Margin="0,9" Width="116" FontSize="16" FontWeight="SemiBold"/>
-                    <Label x:Name="lblClosingPrice" Content="" Height="34" Margin="0,9,-54,9" Width="152"/>
+                    <Label x:Name="lblClosingPrice" Content="" Height="34" Margin="0,9,-54,9" Width="152" FontSize="16" VerticalContentAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Height="52" Orientation="Horizontal" Margin="0,0,6,0">
                     <Label x:Name="label1_Copy2" Content="High" Height="34" Margin="0,9" Width="116" FontSize="16" FontWeight="SemiBold"/>
-                    <Label x:Name="lblHigh" Content="" Height="34" Margin="0,9,-54,9" Width="158"/>
+                    <Label x:Name="lblHigh" Content="" Height="34" Margin="0,9,-54,9" Width="158" FontSize="16" VerticalContentAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Height="52" Orientation="Horizontal" Margin="0,0,6,0">
                     <Label x:Name="label1_Copy3" Content="Low" Height="34" Margin="0,9" Width="116" FontSize="16" FontWeight="SemiBold"/>
-                    <Label x:Name="lblLow" Content="" Height="34" Margin="0,9,-54,9" Width="158"/>
+                    <Label x:Name="lblLow" Content="" Height="34" Margin="0,9,-54,9" Width="158" FontSize="16" VerticalContentAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Height="52" Orientation="Horizontal" Margin="0,0,6,0">
                     <Label x:Name="label1_Copy4" Content="Volume" Height="34" Margin="0,9" Width="116" FontSize="16" FontWeight="SemiBold"/>
-                    <Label x:Name="lblVolume" Content="" Height="34" Margin="0,9,-54,9" Width="158"/>
+                    <Label x:Name="lblVolume" Content="" Height="34" Margin="0,9,-54,9" Width="158" FontSize="16" VerticalContentAlignment="Center"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
@@ -69,7 +72,12 @@
                                         Canvas.Left="740" Canvas.Top="243" Width="582" Height="409" BorderBrush="{x:Null}">
 
 
+
         </chartingToolkit:Chart>
-        <Button x:Name="btnMovingAvg" Content="Moving average" Height="38" Canvas.Left="758" Canvas.Top="210" Width="178" FontSize="16" Background="#FFE2E0E0"/>
+        <Button x:Name="btnMovingAvg" Content="Moving average" Height="38" Canvas.Left="758" Canvas.Top="210" Width="178" FontSize="16" Background="#FFE2E0E0" Click="ShowMovingAverage"/>
+        <Label x:Name="lblTickerValue" Content="" HorizontalAlignment="Left" Height="48" VerticalAlignment="Top" Width="134" FontSize="35" Canvas.Left="524" Canvas.Top="198" FontWeight="Bold"/>
+        <Button x:Name="btnVolumePriceTrend" Content="Volume price trend" Height="38" Canvas.Left="958" Canvas.Top="211" Width="178" FontSize="16" Background="#FFE2E0E0" Click="ShowVolumePriceTrend"/>
+        <Button x:Name="btnReset" Content="Reset" Height="38" Canvas.Left="1160" Canvas.Top="211" Width="90" FontSize="16" Background="#FFE2E0E0" Click="ShowPriceTrend"/>
+        <Rectangle Fill="#FFF5F2FA" Height="45" Canvas.Left="740" Stroke="#FFF5F2FA" Canvas.Top="590" Width="572"/>
     </Canvas>
 </Window>
